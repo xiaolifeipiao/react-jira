@@ -2,6 +2,9 @@
 
 #ide ignore
 .history
+.vscode
+.husky
+.idea
 # dependencies
 /node_modules
 /.pnp
