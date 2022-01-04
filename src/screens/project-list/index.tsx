@@ -3,7 +3,7 @@
 @Description: 搜索列表查询组件
 @version: 0.0.0
 @Date: 2022-01-03 19:49:06
-@LastEditTime: 2022-01-04 21:39:05
+@LastEditTime: 2022-01-04 22:11:18
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\index.tsx
  */
@@ -14,8 +14,8 @@ import { useMount, useDebounce } from '../../hooks/index';
 import { SearchPanel } from './search-panel';
 import { List } from './list';
 
+const baseApiUrl = process.env.REACT_APP_API_URL;
 export const ProjectListScreen = () => {
-  const baseApiUrl = process.env.REACT_APP_API_URL;
   const [param, setParam] = useState({
     name: '',
     personId: '',
