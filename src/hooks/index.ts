@@ -3,19 +3,19 @@
 @Description: custom hook
 @version: 0.0.0
 @Date: 2022-01-04 17:22:03
-@LastEditTime: 2022-01-04 19:54:41
+@LastEditTime: 2022-01-04 21:37:35
 @LastEditors: xiaolifeipiao
-@FilePath: \src\hooks\index.jsx
+@FilePath: \src\hooks\index.ts
  */
 import { useEffect, useState } from 'react';
 
-export const useMount = (callback) => {
+export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
   }, []);
 };
 
-export const useDebounce = (value, delay) => {
+export const useDebounce = (value: any, delay?: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
   // 监听value和delay的值返回debouncedValue
   useEffect(() => {

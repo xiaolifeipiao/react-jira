@@ -3,9 +3,9 @@
 @Description: 搜索列表查询组件
 @version: 0.0.0
 @Date: 2022-01-03 19:49:06
-@LastEditTime: 2022-01-04 19:56:37
+@LastEditTime: 2022-01-04 21:39:05
 @LastEditors: xiaolifeipiao
-@FilePath: \src\screens\project-list\index.jsx
+@FilePath: \src\screens\project-list\index.tsx
  */
 import React, { useState, useEffect } from 'react';
 import * as qs from 'qs';

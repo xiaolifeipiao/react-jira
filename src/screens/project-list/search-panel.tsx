@@ -3,11 +3,27 @@
 @Description: 搜索框
 @version: 0.0.0
 @Date: 2022-01-03 19:58:06
-@LastEditTime: 2022-01-04 16:13:16
+@LastEditTime: 2022-01-04 21:30:57
 @LastEditors: xiaolifeipiao
-@FilePath: \src\screens\project-list\search-panel.jsx
+@FilePath: \src\screens\project-list\search-panel.tsx
  */
-export const SearchPanel = ({ param, setParam, users }) => {
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  title: string;
+  organization: string;
+}
+
+interface SearchPanelProps {
+  users: User[];
+  param: {
+    name: string;
+    personId: string;
+  };
+  setParam: (param: SearchPanelProps['param']) => void;
+}
+export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
   return (
     <form action="">
       <div>

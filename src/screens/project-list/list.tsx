@@ -3,12 +3,25 @@
 @Description: 搜索列表
 @version: 0.0.0
 @Date: 2022-01-03 19:56:42
-@LastEditTime: 2022-01-04 16:57:37
+@LastEditTime: 2022-01-04 21:32:09
 @LastEditors: xiaolifeipiao
-@FilePath: \src\screens\project-list\list.jsx
+@FilePath: \src\screens\project-list\list.tsx
  */
 import React from 'react';
-export const List = ({ list, users }) => {
+import { User } from './search-panel';
+
+interface Project {
+  id: string;
+  name: string;
+  personId: string;
+  pin: boolean;
+  organization: string;
+}
+interface ListProps {
+  list: Project[];
+  users: User[];
+}
+export const List = ({ list, users }: ListProps) => {
   return (
     <table>
       <thead>
