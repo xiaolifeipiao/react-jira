@@ -3,13 +3,11 @@
 @Description: 搜索框
 @version: 0.0.0
 @Date: 2022-01-03 19:58:06
-@LastEditTime: 2022-01-04 14:02:51
+@LastEditTime: 2022-01-04 16:13:16
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\search-panel.jsx
  */
-export const SearchPanel = ({ param, setParam }) => {
-  const [users, setUsers] = useState([]);
-
+export const SearchPanel = ({ param, setParam, users }) => {
   return (
     <form action="">
       <div>
@@ -36,10 +34,13 @@ export const SearchPanel = ({ param, setParam }) => {
         >
           <option value={''}>负责人</option>
           {users.map((user) => (
-            <option value={user.id}>{user.name}</option>
+            <option value={user.id} key={user.id}>
+              {user.name}
+            </option>
           ))}
         </select>
       </div>
     </form>
   );
 };
+export default SearchPanel;

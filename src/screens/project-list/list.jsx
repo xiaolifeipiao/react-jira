@@ -3,12 +3,12 @@
 @Description: 搜索列表
 @version: 0.0.0
 @Date: 2022-01-03 19:56:42
-@LastEditTime: 2022-01-04 14:05:50
+@LastEditTime: 2022-01-04 16:57:37
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\list.jsx
  */
 import React from 'react';
-export const List = ({ list }) => {
+export const List = ({ list, users }) => {
   return (
     <table>
       <thead>
@@ -17,14 +17,19 @@ export const List = ({ list }) => {
           <th>负责人</th>
         </tr>
       </thead>
-      <table>
+      <tbody>
         {list.map((project) => (
-          <tr>
+          <tr key={project.id}>
             <td>{project.name}</td>
-            <td>{project.personName}</td>
+            <td>
+              {users.find((user) => user.id === project.personId)?.name ||
+                '未知'}
+            </td>
           </tr>
         ))}
-      </table>
+      </tbody>
     </table>
   );
 };
+
+export default List;
