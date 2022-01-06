@@ -3,7 +3,7 @@
 @Description: 搜索框
 @version: 0.0.0
 @Date: 2022-01-03 19:58:06
-@LastEditTime: 2022-01-04 21:30:57
+@LastEditTime: 2022-01-06 22:28:29
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\search-panel.tsx
  */
@@ -13,6 +13,7 @@ export interface User {
   email: string;
   title: string;
   organization: string;
+  token: string;
 }
 
 interface SearchPanelProps {

@@ -1,29 +1,17 @@
 /**
 @Author: xiaolifeipiao
-@Description: 登录
+@Description: 注册
 @version: 0.0.0
-@Date: 2022-01-04 22:31:56
-@LastEditTime: 2022-01-04 23:09:26
+@Date: 2022-01-06 23:37:26
+@LastEditTime: 2022-01-07 00:01:07
 @LastEditors: xiaolifeipiao
-@FilePath: \src\screens\login\index.tsx
+@FilePath: \src\unauthenticated-app\register.tsx
  */
+import { useAuth } from 'context/auth-context';
 import React, { FormEvent, FormEventHandler } from 'react';
 
-const baseApiUrl = process.env.REACT_APP_API_URL;
-
-export const LoginScreen = () => {
-  const login = (param: { username: string; password: string }): void => {
-    fetch(`${baseApiUrl}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(param),
-    }).then(async (res) => {
-      if (res.ok) {
-      }
-    });
-  };
+export const RegisterScreen = () => {
+  const { register } = useAuth();
   //  HTMLFormElement extends Element
   const handelSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,7 +19,7 @@ export const LoginScreen = () => {
       .value;
     const password = (event.currentTarget.elements[1] as HTMLInputElement)
       .value;
-    login({ username, password });
+    register({ username, password });
   };
   return (
     <form onSubmit={handelSubmit}>
@@ -43,7 +31,7 @@ export const LoginScreen = () => {
         <label htmlFor="username">密码</label>
         <input type="password" id={'username'}></input>
       </div>
-      <button type="submit">登录</button>
+      <button type="submit">注册</button>
     </form>
   );
 };
