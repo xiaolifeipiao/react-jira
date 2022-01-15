@@ -3,13 +3,14 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-15 17:08:49
-@LastEditTime: 2022-01-15 18:01:22
+@LastEditTime: 2022-01-15 18:46:50
 @LastEditors: xiaolifeipiao
 @FilePath: \src\utils\http.ts
  */
 
 import qs from 'qs';
 import * as auth from 'auth-provider';
+import { type } from 'os';
 
 const baseApiUrl = process.env.REACT_APP_API_URL;
 
