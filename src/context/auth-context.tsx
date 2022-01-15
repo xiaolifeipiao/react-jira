@@ -3,13 +3,15 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-06 22:45:18
-@LastEditTime: 2022-01-07 00:01:25
+@LastEditTime: 2022-01-15 18:17:19
 @LastEditors: xiaolifeipiao
 @FilePath: \src\context\auth-context.tsx
  */
 import React, { ReactNode, useState } from 'react';
 import * as auth from 'auth-provider';
 import { User } from 'screens/project-list/search-panel';
+import { http } from 'utils/http';
+import { useMount } from 'hooks';
 
 interface AuthForm {
   username: string;
@@ -26,6 +28,17 @@ const AuthContext = React.createContext<AuthContextProps | undefined>(
 );
 AuthContext.displayName = 'AuthContext';
 
+// 浏览器刷新初始化
+const bootstrapUser = async () => {
+  let user = null;
+  const token = auth.getToken();
+  if (token) {
+    const data = await http('me', { token });
+    user = data.user;
+  }
+  return user;
+};
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
@@ -33,6 +46,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const register = (from: AuthForm) => auth.register(from).then(setUser);
   const logout = () => auth.logout().then(() => setUser(null));
 
+  // 刷新初始化
+  useMount(() => {
+    bootstrapUser().then(setUser);
+  });
   return (
     <AuthContext.Provider
       children={children}

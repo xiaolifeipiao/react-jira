@@ -3,11 +3,13 @@
 @Description: custom hook
 @version: 0.0.0
 @Date: 2022-01-04 17:22:03
-@LastEditTime: 2022-01-04 22:28:22
+@LastEditTime: 2022-01-15 17:54:07
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\index.ts
  */
+import { useAuth } from 'context/auth-context';
 import { useEffect, useState } from 'react';
+import { http, Config } from 'utils/http';
 
 export const useMount = (callback: () => void) => {
   useEffect(() => {
@@ -41,4 +43,13 @@ export const useArray = <T>(initialArray: T[]) => {
       setValue(copy);
     },
   };
+};
+
+// 自动添加token到fetch携带请求
+export const useHttp = () => {
+  const { user } = useAuth();
+  // 操作符Parameters,[]数组传参改成传统则加解构...
+  return (...[endpoint, config]: Parameters<typeof http>) =>
+    http(endpoint, { ...config, token: user?.token });
+  // return ([endpoint, config]: [string, Config]) => http(endpoint, { ...config, token: user?.token });
 };
