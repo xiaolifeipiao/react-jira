@@ -3,10 +3,12 @@
 @Description: 搜索框
 @version: 0.0.0
 @Date: 2022-01-03 19:58:06
-@LastEditTime: 2022-01-06 22:28:29
+@LastEditTime: 2022-01-17 22:02:09
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\search-panel.tsx
  */
+
+import { Form, Input, Select } from 'antd';
 export interface User {
   id: string;
   name: string;
@@ -26,11 +28,11 @@ interface SearchPanelProps {
 }
 export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
   return (
-    <form action="">
+    <Form action="">
       <div>
         {/* // 浅拷贝等价
         setParam(Object.assign({}, param, { name: e.target.value })); */}
-        <input
+        <Input
           type="text"
           value={param.name}
           onChange={(e) =>
@@ -39,25 +41,25 @@ export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
               name: e.target.value,
             })
           }
-        ></input>
-        <select
+        ></Input>
+        <Select
           value={param.personId}
-          onChange={(e) =>
+          onChange={(value) =>
             setParam({
               ...param,
-              personId: e.target.value,
+              personId: value,
             })
           }
         >
-          <option value={''}>负责人</option>
+          <Select.Option value={''}>负责人</Select.Option>
           {users.map((user) => (
-            <option value={user.id} key={user.id}>
+            <Select.Option value={user.id} key={user.id}>
               {user.name}
-            </option>
+            </Select.Option>
           ))}
-        </select>
+        </Select>
       </div>
-    </form>
+    </Form>
   );
 };
 export default SearchPanel;
