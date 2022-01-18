@@ -3,7 +3,7 @@
 @Description: grad和flex的使用场景  
 @version: 0.0.0
 @Date: 2022-01-06 23:47:14
-@LastEditTime: 2022-01-18 16:11:05
+@LastEditTime: 2022-01-18 16:31:53
 @LastEditors: xiaolifeipiao
 @FilePath: \src\authenticated-app.tsx
  */
@@ -20,6 +20,7 @@
  */
 
 import styled from '@emotion/styled';
+import { Row } from 'components/lib';
 import { useAuth } from 'context/auth-context';
 import React from 'react';
 import ProjectListScreen from 'screens/project-list';
@@ -28,8 +29,12 @@ export const AuthenticatedApp = () => {
   const { logout } = useAuth();
   return (
     <Container>
-      <Header>
-        <HeaderLeft>asdfasdf</HeaderLeft>
+      <Header between={true}>
+        <HeaderLeft gap={true}>
+          <h2>Logo</h2>
+          <h2>项目</h2>
+          <h2>用户</h2>
+        </HeaderLeft>
         <HeaderRight>
           <button onClick={logout}>登出</button>
         </HeaderRight>
@@ -59,15 +64,6 @@ const Main = styled.main`
   /* height: calc(100vh - 6rem); */
 `;
 
-const Header = styled.header`
-  /* grid-area: header; */
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
-const HeaderLeft = styled.div`
-  display: flex;
-  align-items: center;
-`;
+const Header = styled(Row)``;
+const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;
