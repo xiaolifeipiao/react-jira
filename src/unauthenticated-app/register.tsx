@@ -3,13 +3,14 @@
 @Description: 注册
 @version: 0.0.0
 @Date: 2022-01-06 23:37:26
-@LastEditTime: 2022-01-17 21:41:20
+@LastEditTime: 2022-01-18 15:16:50
 @LastEditors: xiaolifeipiao
 @FilePath: \src\unauthenticated-app\register.tsx
  */
 import { Button, Form, Input } from 'antd';
 import { useAuth } from 'context/auth-context';
 import React, { FormEvent, FormEventHandler } from 'react';
+import { LongButton } from 'unauthenticated-app';
 
 export const RegisterScreen = () => {
   const { register } = useAuth();
@@ -41,9 +42,9 @@ export const RegisterScreen = () => {
         <Input placeholder={'密码'} type="password" id={'username'} />
       </Form.Item>
       <Form.Item>
-        <Button htmlType={'submit'} type={'primary'}>
+        <LongButton htmlType={'submit'} type={'primary'}>
           注册
-        </Button>
+        </LongButton>
       </Form.Item>
     </Form>
   );

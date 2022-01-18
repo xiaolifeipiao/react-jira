@@ -3,13 +3,14 @@
 @Description: 登录
 @version: 0.0.0
 @Date: 2022-01-06 23:37:14
-@LastEditTime: 2022-01-17 21:31:19
+@LastEditTime: 2022-01-18 15:16:36
 @LastEditors: xiaolifeipiao
 @FilePath: \src\unauthenticated-app\login.tsx
  */
 import { useAuth } from 'context/auth-context';
 import React, { FormEvent, FormEventHandler } from 'react';
 import { Button, Form, Input } from 'antd';
+import { LongButton } from 'unauthenticated-app';
 
 export const LoginScreen = () => {
   const { login } = useAuth();
@@ -43,9 +44,9 @@ export const LoginScreen = () => {
         <Input placeholder={'密码'} type="password" id={'username'} />
       </Form.Item>
       <Form.Item>
-        <Button htmlType={'submit'} type={'primary'}>
+        <LongButton htmlType={'submit'} type={'primary'}>
           登录
-        </Button>
+        </LongButton>
       </Form.Item>
     </Form>
   );
