@@ -3,11 +3,17 @@
 @Description: 搜索框
 @version: 0.0.0
 @Date: 2022-01-03 19:58:06
-@LastEditTime: 2022-01-17 22:02:09
+@LastEditTime: 2022-01-18 16:58:04
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\search-panel.tsx
- */
-
+*/
+/**
+ * 使用此注释告诉 Babel 将 jsx 代码转换为 jsx 函数的调用，而不是 React.createElement
+ * 16.x ： @jsx jsx
+ * 17.x: @jsxImportSource @emotion/react
+ *  */
+/** @jsxImportSource @emotion/react */
+import { jsx } from '@emotion/react';
 import { Form, Input, Select } from 'antd';
 export interface User {
   id: string;
@@ -28,12 +34,13 @@ interface SearchPanelProps {
 }
 export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
   return (
-    <Form action="">
-      <div>
+    <Form css={{ marginBottom: '2rem' }} layout={'inline'}>
+      <Form.Item>
         {/* // 浅拷贝等价
         setParam(Object.assign({}, param, { name: e.target.value })); */}
         <Input
           type="text"
+          placeholder="项目名"
           value={param.name}
           onChange={(e) =>
             setParam({
@@ -42,6 +49,8 @@ export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
             })
           }
         ></Input>
+      </Form.Item>
+      <Form.Item>
         <Select
           value={param.personId}
           onChange={(value) =>
@@ -58,7 +67,7 @@ export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
             </Select.Option>
           ))}
         </Select>
-      </div>
+      </Form.Item>
     </Form>
   );
 };

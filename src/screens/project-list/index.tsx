@@ -3,7 +3,7 @@
 @Description: 搜索列表查询组件
 @version: 0.0.0
 @Date: 2022-01-03 19:49:06
-@LastEditTime: 2022-01-15 18:02:44
+@LastEditTime: 2022-01-18 16:59:52
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\index.tsx
  */
@@ -13,6 +13,7 @@ import { cleanObject } from '../../utils/index';
 import { useMount, useDebounce, useHttp } from '../../hooks/index';
 import { SearchPanel } from './search-panel';
 import { List } from './list';
+import styled from '@emotion/styled';
 
 const baseApiUrl = process.env.REACT_APP_API_URL;
 export const ProjectListScreen = () => {
@@ -46,11 +47,16 @@ export const ProjectListScreen = () => {
     // });
   });
   return (
-    <div>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPanel param={param} setParam={setParam} users={users} />
       <List list={list} users={users} />
-    </div>
+    </Container>
   );
 };
 
 export default ProjectListScreen;
+
+const Container = styled.div`
+  padding: 3.2rem;
+`;
