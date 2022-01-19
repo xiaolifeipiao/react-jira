@@ -3,12 +3,12 @@
 @Description: custom hook
 @version: 0.0.0
 @Date: 2022-01-04 17:22:03
-@LastEditTime: 2022-01-15 17:54:07
+@LastEditTime: 2022-01-19 18:34:23
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\index.ts
  */
 import { useAuth } from 'context/auth-context';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { http, Config } from 'utils/http';
 
 export const useMount = (callback: () => void) => {
@@ -52,4 +52,24 @@ export const useHttp = () => {
   return (...[endpoint, config]: Parameters<typeof http>) =>
     http(endpoint, { ...config, token: user?.token });
   // return ([endpoint, config]: [string, Config]) => http(endpoint, { ...config, token: user?.token });
+};
+
+// 自定义一个改变头部标题的改变
+export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
+  const oldTitle = useRef(document.title).current;
+  // 页面加载时: 旧title
+  // 加载后：新title
+
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+
+  useEffect(() => {
+    return () => {
+      if (!keepOnUnmount) {
+        // 如果不指定依赖，读到的就是旧title
+        document.title = oldTitle;
+      }
+    };
+  }, [keepOnUnmount, oldTitle]);
 };

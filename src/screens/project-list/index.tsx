@@ -3,12 +3,12 @@
 @Description: 搜索列表查询组件
 @version: 0.0.0
 @Date: 2022-01-03 19:49:06
-@LastEditTime: 2022-01-19 15:40:14
+@LastEditTime: 2022-01-19 18:29:33
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\index.tsx
  */
 import React, { useState } from 'react';
-import { useDebounce } from '../../hooks/index';
+import { useDebounce, useDocumentTitle } from '../../hooks/index';
 import { SearchPanel } from './search-panel';
 import { List } from './list';
 import styled from '@emotion/styled';
@@ -24,6 +24,7 @@ export const ProjectListScreen = () => {
   const debouncedParam = useDebounce(param, 1000);
   const { isLoading, error, data: list } = useProjects(debouncedParam);
   const { data: users } = useUsers();
+  useDocumentTitle('项目列表', false);
   return (
     <Container>
       <h1>项目列表</h1>
