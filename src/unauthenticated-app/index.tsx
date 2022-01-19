@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-06 23:37:03
-@LastEditTime: 2022-01-18 15:16:22
+@LastEditTime: 2022-01-18 22:02:44
 @LastEditors: xiaolifeipiao
 @FilePath: \src\unauthenticated-app\index.tsx
  */
@@ -27,9 +27,9 @@ export const UnauthenticatedApp = () => {
         <Title>{isRegister ? '请注册' : '请登录'}</Title>
         {isRegister ? <RegisterScreen /> : <LoginScreen />}
         <Divider />
-        <a onClick={() => setIsRegister(!isRegister)}>
+        <Button type="link" onClick={() => setIsRegister(!isRegister)}>
           {isRegister ? '已经有账号了？直接登录' : '没有账号？注册新账号'}
-        </a>
+        </Button>
       </ShowCard>
     </Container>
   );

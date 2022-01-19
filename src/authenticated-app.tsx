@@ -3,7 +3,7 @@
 @Description: grad和flex的使用场景  
 @version: 0.0.0
 @Date: 2022-01-06 23:47:14
-@LastEditTime: 2022-01-18 17:21:37
+@LastEditTime: 2022-01-18 22:02:23
 @LastEditors: xiaolifeipiao
 @FilePath: \src\authenticated-app.tsx
  */
@@ -25,7 +25,7 @@ import { useAuth } from 'context/auth-context';
 import React from 'react';
 import ProjectListScreen from 'screens/project-list';
 import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg';
-import { Dropdown, Menu } from 'antd';
+import { Button, Dropdown, Menu } from 'antd';
 import { userInfo } from 'os';
 
 export const AuthenticatedApp = () => {
@@ -43,12 +43,16 @@ export const AuthenticatedApp = () => {
             overlay={
               <Menu>
                 <Menu.Item key={'logout'}>
-                  <a onClick={logout}>登出</a>
+                  <Button type="link" onClick={logout}>
+                    登出
+                  </Button>
                 </Menu.Item>
               </Menu>
             }
           >
-            <a onClick={(e) => e.preventDefault()}>Hi，{user?.name}</a>
+            <Button type="link" onClick={(e) => e.preventDefault()}>
+              Hi，{user?.name}
+            </Button>
           </Dropdown>
         </HeaderRight>
       </Header>
