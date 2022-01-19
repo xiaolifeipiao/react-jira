@@ -3,7 +3,7 @@
 @Description: jwt的使用token
 @version: 0.0.0
 @Date: 2022-01-06 22:25:37
-@LastEditTime: 2022-01-06 23:05:01
+@LastEditTime: 2022-01-19 16:07:53
 @LastEditors: xiaolifeipiao
 @FilePath: \src\auth-provider.ts
  */
@@ -30,7 +30,7 @@ export const login = (data: { username: string; password: string }) => {
     if (res.ok) {
       return handleUserResponse(await res.json());
     } else {
-      return Promise.reject(data);
+      return Promise.reject(await res.json());
     }
   });
 };
@@ -46,7 +46,7 @@ export const register = (data: { username: string; password: string }) => {
     if (res.ok) {
       return handleUserResponse(await res.json());
     } else {
-      return Promise.reject(data);
+      return Promise.reject(await res.json());
     }
   });
 };

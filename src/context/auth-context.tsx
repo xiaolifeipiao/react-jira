@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-06 22:45:18
-@LastEditTime: 2022-01-15 18:17:19
+@LastEditTime: 2022-01-19 17:26:05
 @LastEditors: xiaolifeipiao
 @FilePath: \src\context\auth-context.tsx
  */
@@ -12,6 +12,8 @@ import * as auth from 'auth-provider';
 import { User } from 'screens/project-list/search-panel';
 import { http } from 'utils/http';
 import { useMount } from 'hooks';
+import { useAsync } from 'hooks/use-async';
+import { FullPageErrorFallback, FullPageLoading } from 'components/lib';
 
 interface AuthForm {
   username: string;
@@ -40,7 +42,16 @@ const bootstrapUser = async () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  // const [user, setUser] = useState<User | null>(null);
+  const {
+    data: user,
+    error,
+    isLoading,
+    isIdle,
+    isError,
+    run,
+    setData: setUser,
+  } = useAsync<User | null>();
 
   const login = (from: AuthForm) => auth.login(from).then(setUser);
   const register = (from: AuthForm) => auth.register(from).then(setUser);
@@ -48,8 +59,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // 刷新初始化
   useMount(() => {
-    bootstrapUser().then(setUser);
+    run(bootstrapUser());
   });
+  //初始化和加载时
+  if (isIdle || isLoading) {
+    return <FullPageLoading />;
+  }
+  // 发生错误信息是me请求失败
+  if (isError) {
+    return <FullPageErrorFallback error={error} />;
+  }
+
   return (
     <AuthContext.Provider
       children={children}
