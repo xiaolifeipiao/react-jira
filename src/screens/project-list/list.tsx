@@ -3,14 +3,17 @@
 @Description: 搜索列表
 @version: 0.0.0
 @Date: 2022-01-03 19:56:42
-@LastEditTime: 2022-01-19 15:51:51
+@LastEditTime: 2022-01-21 14:42:13
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\list.tsx
  */
 import { Table, TableProps } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { User } from './search-panel';
+
+// react-router和react-router-dom的关系 类似react和react-dom
 
 export interface Project {
   id: string;
@@ -30,8 +33,12 @@ export const List = ({ users, ...props }: ListProps) => {
       columns={[
         {
           title: '名称',
-          dataIndex: 'name',
           sorter: (a, b) => a.name.localeCompare(b.name),
+          render(value, project) {
+            return (
+              <Link to={`/projects/${String(project.id)}`}>{project.name}</Link>
+            );
+          },
         },
         {
           title: '部门',

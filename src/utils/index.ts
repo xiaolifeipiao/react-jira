@@ -3,7 +3,7 @@
 @Description: 清理对象的空值
 @version: 0.0.0
 @Date: 2022-01-04 16:22:46
-@LastEditTime: 2022-01-18 21:59:47
+@LastEditTime: 2022-01-21 14:45:25
 @LastEditors: xiaolifeipiao
 @FilePath: \src\utils\index.ts
  */
@@ -26,3 +26,6 @@ export const cleanObject = (object: { [key: string]: unknown }) => {
   });
   return result;
 };
+
+// 点击logo重置路由
+export const resetRoute = () => (window.location.href = window.location.origin);

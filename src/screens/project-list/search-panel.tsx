@@ -3,7 +3,7 @@
 @Description: 搜索框
 @version: 0.0.0
 @Date: 2022-01-03 19:58:06
-@LastEditTime: 2022-01-18 16:58:04
+@LastEditTime: 2022-01-21 16:22:52
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\search-panel.tsx
 */
@@ -62,7 +62,7 @@ export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
         >
           <Select.Option value={''}>负责人</Select.Option>
           {users.map((user) => (
-            <Select.Option value={user.id} key={user.id}>
+            <Select.Option value={String(user.id)} key={user.id}>
               {user.name}
             </Select.Option>
           ))}

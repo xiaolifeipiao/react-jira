@@ -3,7 +3,7 @@
 @Description: 搜索列表查询组件
 @version: 0.0.0
 @Date: 2022-01-03 19:49:06
-@LastEditTime: 2022-01-19 18:29:33
+@LastEditTime: 2022-01-21 16:21:09
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\index.tsx
  */
@@ -15,12 +15,13 @@ import styled from '@emotion/styled';
 import { useProjects } from 'hooks/use-projects';
 import { useUsers } from 'hooks/use-Users';
 import { Typography } from 'antd';
+import { useUrlQueryParam } from 'hooks/url';
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useState({
-    name: '',
-    personId: '',
-  });
+  // 状态提升可以让组件共享状态，但是容易造成 prop drilling
+  // 基本类型，可以放到依赖里；组件状态，可以放到依赖里；非组件状态的对象，绝不可以放到依赖里
+  // https://codesandbox.io/s/keen-wave-tlz9s?file=/src/App.js
+  const [param, setParam] = useUrlQueryParam(['name', 'personId']);
   const debouncedParam = useDebounce(param, 1000);
   const { isLoading, error, data: list } = useProjects(debouncedParam);
   const { data: users } = useUsers();
@@ -39,6 +40,11 @@ export const ProjectListScreen = () => {
 
 export default ProjectListScreen;
 
+ProjectListScreen.whyDidYouRender = true;
+// 和下面class等价;
+// class Text extends React.Component<any, any> {
+//   static whyDidYouRender = true;
+// }
 const Container = styled.div`
   padding: 3.2rem;
 `;
