@@ -3,7 +3,7 @@
 @Description: 搜索框
 @version: 0.0.0
 @Date: 2022-01-03 19:58:06
-@LastEditTime: 2022-01-21 16:22:52
+@LastEditTime: 2022-01-21 17:19:27
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\search-panel.tsx
 */
@@ -15,8 +15,10 @@
 /** @jsxImportSource @emotion/react */
 import { jsx } from '@emotion/react';
 import { Form, Input, Select } from 'antd';
+import { UserSelect } from 'components/user-select';
+import { Project } from './list';
 export interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
   title: string;
@@ -26,10 +28,7 @@ export interface User {
 
 interface SearchPanelProps {
   users: User[];
-  param: {
-    name: string;
-    personId: string;
-  };
+  param: Partial<Pick<Project, 'name' | 'personId'>>;
   setParam: (param: SearchPanelProps['param']) => void;
 }
 export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
@@ -51,7 +50,8 @@ export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
         ></Input>
       </Form.Item>
       <Form.Item>
-        <Select
+        <UserSelect
+          defaultOptionName="负责人"
           value={param.personId}
           onChange={(value) =>
             setParam({
@@ -59,14 +59,7 @@ export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
               personId: value,
             })
           }
-        >
-          <Select.Option value={''}>负责人</Select.Option>
-          {users.map((user) => (
-            <Select.Option value={String(user.id)} key={user.id}>
-              {user.name}
-            </Select.Option>
-          ))}
-        </Select>
+        ></UserSelect>
       </Form.Item>
     </Form>
   );
