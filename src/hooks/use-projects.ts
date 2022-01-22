@@ -3,7 +3,7 @@
 @Description: useProject
 @version: 0.0.0
 @Date: 2022-01-19 15:20:03
-@LastEditTime: 2022-01-22 15:09:23
+@LastEditTime: 2022-01-22 16:08:11
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\use-projects.ts
  */
@@ -18,8 +18,10 @@ export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
   // 使用自定义useAsync
   const { run, ...result } = useAsync<Project[]>();
+  const fetchProjects = () =>
+    client('projects', { data: cleanObject(param || {}) });
   useEffect(() => {
-    run(client('projects', { data: cleanObject(param || {}) }));
+    run(fetchProjects(), { retry: fetchProjects });
   }, [param]);
   return result;
 };

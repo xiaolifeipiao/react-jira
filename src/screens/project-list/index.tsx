@@ -3,7 +3,7 @@
 @Description: 搜索列表查询组件
 @version: 0.0.0
 @Date: 2022-01-03 19:49:06
-@LastEditTime: 2022-01-21 17:10:05
+@LastEditTime: 2022-01-22 16:15:57
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\index.tsx
  */
@@ -14,7 +14,7 @@ import { List } from './list';
 import styled from '@emotion/styled';
 import { useProjects } from 'hooks/use-projects';
 import { useUsers } from 'hooks/use-Users';
-import { Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import { useUrlQueryParam } from 'hooks/url';
 import { useProjectsSearchParams } from './util';
 
@@ -28,6 +28,7 @@ export const ProjectListScreen = () => {
     isLoading,
     error,
     data: list,
+    retry,
   } = useProjects(useDebounce(param, 1000));
   const { data: users } = useUsers();
 
@@ -38,7 +39,12 @@ export const ProjectListScreen = () => {
       {error ? (
         <Typography.Text type="danger">{error.message}</Typography.Text>
       ) : null}
-      <List loading={isLoading} dataSource={list || []} users={users || []} />
+      <List
+        refresh={retry}
+        loading={isLoading}
+        dataSource={list || []}
+        users={users || []}
+      />
     </Container>
   );
 };

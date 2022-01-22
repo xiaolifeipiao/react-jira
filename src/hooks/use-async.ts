@@ -3,7 +3,7 @@
 @Description: useAsync
 @version: 0.0.0
 @Date: 2022-01-19 14:51:28
-@LastEditTime: 2022-01-19 17:02:43
+@LastEditTime: 2022-01-22 16:10:37
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\use-async.ts
  */
@@ -36,6 +36,8 @@ export const useAsync = <D>(
     ...defaultInitialState,
     ...initialState,
   });
+  //useState直接传入函数的含义是：惰性初始化；所以要用useState保存函数，不能直接传入函数
+  const [retry, setRetry] = useState(() => () => {});
   const setData = (data: D) =>
     setState({
       data,
@@ -49,10 +51,18 @@ export const useAsync = <D>(
       data: null,
     });
   // run用来触发异步请求
-  const run = (promise: Promise<D>) => {
+  const run = (
+    promise: Promise<D>,
+    runConfig?: { retry: () => Promise<D> }
+  ) => {
     if (!promise || !promise.then) {
       throw new Error('请传入 Promise类型数据');
     }
+    setRetry(() => () => {
+      if (runConfig?.retry) {
+        run(runConfig?.retry(), runConfig);
+      }
+    });
     setState({ ...state, stat: 'loading' });
     return promise
       .then((data) => {
@@ -75,6 +85,8 @@ export const useAsync = <D>(
     run,
     setData,
     setError,
+    // 调用retry,重新run一遍，然后使得state刷新一遍
+    retry,
     ...state,
   };
 };

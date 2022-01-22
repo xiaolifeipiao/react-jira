@@ -3,7 +3,7 @@
 @Description: 搜索列表
 @version: 0.0.0
 @Date: 2022-01-03 19:56:42
-@LastEditTime: 2022-01-22 15:06:11
+@LastEditTime: 2022-01-22 16:15:03
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\list.tsx
  */
@@ -27,12 +27,14 @@ export interface Project {
 }
 interface ListProps extends TableProps<Project> {
   users: User[];
+  refresh?: () => void;
 }
 export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject();
   // const pinProject = (id: number, pin: boolean) => mutate({ id, pin });
   // 使用柯里化函数;
-  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
+  const pinProject = (id: number) => (pin: boolean) =>
+    mutate({ id, pin }).then(props.refresh);
   return (
     <Table
       pagination={false}
