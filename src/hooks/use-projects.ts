@@ -3,7 +3,7 @@
 @Description: useProject
 @version: 0.0.0
 @Date: 2022-01-19 15:20:03
-@LastEditTime: 2022-01-19 16:15:32
+@LastEditTime: 2022-01-22 15:09:23
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\use-projects.ts
  */
@@ -22,4 +22,40 @@ export const useProjects = (param?: Partial<Project>) => {
     run(client('projects', { data: cleanObject(param || {}) }));
   }, [param]);
   return result;
+};
+
+// 编辑
+export const useEditProject = () => {
+  const { run, ...asyncResult } = useAsync();
+  const client = useHttp();
+  const mutate = (params: Partial<Project>) => {
+    return run(
+      client(`projects/${params.id}`, {
+        data: params,
+        method: 'PATCH',
+      })
+    );
+  };
+  return {
+    mutate,
+    ...asyncResult,
+  };
+};
+
+// 添加
+export const useAddProject = () => {
+  const { run, ...asyncResult } = useAsync();
+  const client = useHttp();
+  const mutate = (params: Partial<Project>) => {
+    return run(
+      client(`projects/${params.id}`, {
+        data: params,
+        method: 'POST',
+      })
+    );
+  };
+  return {
+    mutate,
+    ...asyncResult,
+  };
 };

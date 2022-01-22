@@ -3,12 +3,14 @@
 @Description: 搜索列表
 @version: 0.0.0
 @Date: 2022-01-03 19:56:42
-@LastEditTime: 2022-01-21 17:13:43
+@LastEditTime: 2022-01-22 15:06:11
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\list.tsx
  */
 import { Table, TableProps } from 'antd';
+import { Pin } from 'components/pin';
 import dayjs from 'dayjs';
+import { useEditProject } from 'hooks/use-projects';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { User } from './search-panel';
@@ -27,10 +29,26 @@ interface ListProps extends TableProps<Project> {
   users: User[];
 }
 export const List = ({ users, ...props }: ListProps) => {
+  const { mutate } = useEditProject();
+  // const pinProject = (id: number, pin: boolean) => mutate({ id, pin });
+  // 使用柯里化函数;
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
   return (
     <Table
       pagination={false}
       columns={[
+        {
+          title: <Pin checked={true} disabled={true} />,
+          render(value, project) {
+            return (
+              <Pin
+                checked={project.pin}
+                // onCheckedChange={(pin) => pinProject(project.id, pin)}
+                onCheckedChange={pinProject(project.id)}
+              />
+            );
+          },
+        },
         {
           title: '名称',
           sorter: (a, b) => a.name.localeCompare(b.name),
