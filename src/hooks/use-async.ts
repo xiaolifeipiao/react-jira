@@ -3,11 +3,12 @@
 @Description: useAsync
 @version: 0.0.0
 @Date: 2022-01-19 14:51:28
-@LastEditTime: 2022-01-22 16:10:37
+@LastEditTime: 2022-01-22 22:44:51
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\use-async.ts
  */
 
+import { useMountedRef } from 'hooks';
 import { useState } from 'react';
 
 interface State<D> {
@@ -36,6 +37,7 @@ export const useAsync = <D>(
     ...defaultInitialState,
     ...initialState,
   });
+  const mountedRef = useMountedRef();
   //useState直接传入函数的含义是：惰性初始化；所以要用useState保存函数，不能直接传入函数
   const [retry, setRetry] = useState(() => () => {});
   const setData = (data: D) =>
@@ -66,7 +68,9 @@ export const useAsync = <D>(
     setState({ ...state, stat: 'loading' });
     return promise
       .then((data) => {
-        setData(data);
+        if (mountedRef.current) {
+          setData(data);
+        }
         return data;
       })
       .catch((error) => {

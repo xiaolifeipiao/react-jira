@@ -3,7 +3,7 @@
 @Description: custom hook
 @version: 0.0.0
 @Date: 2022-01-04 17:22:03
-@LastEditTime: 2022-01-19 18:34:23
+@LastEditTime: 2022-01-22 22:42:07
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\index.ts
  */
@@ -72,4 +72,18 @@ export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
       }
     };
   }, [keepOnUnmount, oldTitle]);
+};
+
+/**
+ * 返回组件的挂载状态，如果还没得挂载或者已经挂载，返回false,反之则true
+ */
+export const useMountedRef = () => {
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  });
+  return mountedRef;
 };
