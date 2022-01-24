@@ -3,11 +3,11 @@
 @Description: 返回页面url中，指定键的参数值
 @version: 0.0.0
 @Date: 2022-01-21 15:01:24
-@LastEditTime: 2022-01-21 16:19:19
+@LastEditTime: 2022-01-22 23:34:49
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\url.ts
  */
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { URLSearchParamsInit, useSearchParams } from 'react-router-dom';
 import { cleanObject } from 'utils';
 

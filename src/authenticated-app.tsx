@@ -3,7 +3,7 @@
 @Description: grad和flex的使用场景  
 @version: 0.0.0
 @Date: 2022-01-06 23:47:14
-@LastEditTime: 2022-01-21 14:55:32
+@LastEditTime: 2022-01-24 16:41:52
 @LastEditors: xiaolifeipiao
 @FilePath: \src\authenticated-app.tsx
  */
@@ -20,9 +20,9 @@
  */
 
 import styled from '@emotion/styled';
-import { Row } from 'components/lib';
+import { ButtonNoPadding, Row } from 'components/lib';
 import { useAuth } from 'context/auth-context';
-import React from 'react';
+import React, { useState } from 'react';
 import ProjectListScreen from 'screens/project-list';
 import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg';
 import { Button, Dropdown, Menu } from 'antd';
@@ -30,38 +30,57 @@ import { Routes, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { resetRoute } from 'utils';
 import { ProjectScreen } from 'screens/project';
+import { ProjectModal } from 'screens/project-list/project-modal';
+import { ProjectPopover } from 'components/project-popover';
 
 export const AuthenticatedApp = () => {
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
   return (
     <Container>
-      <PageHeader />
+      <PageHeader setProjectModalOpen={setProjectModalOpen} />
       <Main>
         {/* <ProjectListScreen /> */}
         <BrowserRouter>
           <Routes>
-            <Route path={'/projects'} element={<ProjectListScreen />} />
+            <Route
+              path={'/projects'}
+              element={
+                <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
+              }
+            />
             <Route
               path={'/projects/:projectId/*'}
               element={<ProjectScreen />}
             />
-            <Route index element={<ProjectListScreen />} />
+            <Route
+              index
+              element={
+                <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
+              }
+            />
           </Routes>
         </BrowserRouter>
       </Main>
+      <ProjectModal
+        projectModalOpen={projectModalOpen}
+        onClose={() => setProjectModalOpen(false)}
+      ></ProjectModal>
     </Container>
   );
 };
 
-const PageHeader = () => {
+const PageHeader = (props: {
+  setProjectModalOpen: (isOpen: boolean) => void;
+}) => {
   const { logout, user } = useAuth();
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <Button type="link" onClick={resetRoute}>
+        <ButtonNoPadding type="link" onClick={resetRoute}>
           <SoftwareLogo width={'18rem'} color="rgb(38,132,255)"></SoftwareLogo>
-        </Button>
-        <h2>项目</h2>
-        <h2>用户</h2>
+        </ButtonNoPadding>
+        <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
+        <span>用户</span>
       </HeaderLeft>
       <HeaderRight>
         <Dropdown

@@ -3,7 +3,7 @@
 @Description: 搜索框
 @version: 0.0.0
 @Date: 2022-01-03 19:58:06
-@LastEditTime: 2022-01-21 17:19:27
+@LastEditTime: 2022-01-22 23:36:02
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\search-panel.tsx
 */
@@ -14,7 +14,7 @@
  *  */
 /** @jsxImportSource @emotion/react */
 import { jsx } from '@emotion/react';
-import { Form, Input, Select } from 'antd';
+import { Form, Input } from 'antd';
 import { UserSelect } from 'components/user-select';
 import { Project } from './list';
 export interface User {

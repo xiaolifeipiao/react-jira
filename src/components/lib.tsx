@@ -3,12 +3,12 @@
 @Description: 定制一个可以改变的组件
 @version: 0.0.0
 @Date: 2022-01-18 16:17:22
-@LastEditTime: 2022-01-19 17:26:15
+@LastEditTime: 2022-01-24 16:27:25
 @LastEditors: xiaolifeipiao
 @FilePath: \src\components\lib.tsx
  */
 import styled from '@emotion/styled';
-import { Spin, Typography } from 'antd';
+import { Button, Spin, Typography } from 'antd';
 import { DevTools } from 'jira-dev-tool';
 import React from 'react';
 // 公共列表项样式组件
@@ -53,3 +53,7 @@ export const FullPageErrorFallback = ({ error }: { error: Error | null }) => (
     <Typography.Text type="danger">{error?.message}</Typography.Text>
   </FullPage>
 );
+
+export const ButtonNoPadding = styled(Button)`
+  padding: 0;
+`;
