@@ -3,7 +3,7 @@
 @Description: 搜索列表查询组件
 @version: 0.0.0
 @Date: 2022-01-03 19:49:06
-@LastEditTime: 2022-01-24 16:54:56
+@LastEditTime: 2022-01-25 14:32:27
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\index.tsx
  */
@@ -18,9 +18,7 @@ import { Button, Typography } from 'antd';
 import { useProjectsSearchParams } from './util';
 import { Row } from 'components/lib';
 
-export const ProjectListScreen = (props: {
-  setProjectModalOpen: (isOpen: boolean) => void;
-}) => {
+export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
   // 状态提升可以让组件共享状态，但是容易造成 prop drilling
   // 基本类型，可以放到依赖里；组件状态，可以放到依赖里；非组件状态的对象，绝不可以放到依赖里
   // https://codesandbox.io/s/keen-wave-tlz9s?file=/src/App.js
@@ -38,9 +36,7 @@ export const ProjectListScreen = (props: {
     <Container>
       <Row between={true}>
         <h1>项目列表</h1>
-        <Button onClick={() => props.setProjectModalOpen(true)}>
-          创建项目
-        </Button>
+        {props.projectButton}
       </Row>
 
       <SearchPanel param={param} setParam={setParam} users={users || []} />
@@ -48,7 +44,7 @@ export const ProjectListScreen = (props: {
         <Typography.Text type="danger">{error.message}</Typography.Text>
       ) : null}
       <List
-        setProjectModalOpen={props.setProjectModalOpen}
+        projectButton={props.projectButton}
         refresh={retry}
         loading={isLoading}
         dataSource={list || []}
