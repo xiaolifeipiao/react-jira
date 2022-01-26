@@ -1,36 +1,37 @@
-import { stat } from 'fs';
-import { useCallback, useState } from 'react';
-
 /**
 @Author: xiaolifeipiao
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-25 14:51:33
-@LastEditTime: 2022-01-26 15:04:58
+@LastEditTime: 2022-01-26 15:45:09
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\use-undo.ts
  */
-export const useUndo = <T>(initialPresent: T) => {
-  // const [past, setPast] = useState<T[]>([]);
-  // const [present, setPresent] = useState(initialPresent);
-  // const [future, setFuture] = useState<T[]>([]);
+import { useCallback, useReducer, useState } from 'react';
 
-  // 合并状态，复杂度降低
-  const [state, setState] = useState<{
-    past: T[];
-    present: T;
-    future: T[];
-  }>({
-    past: [],
-    present: initialPresent,
-    future: [],
-  });
-  const canUndo = state.past.length !== 0;
-  const canRedo = state.future.length !== 0;
-  const undo = useCallback(() => {
-    setState((currentState) => {
-      const { past, present, future } = currentState;
-      if (past.length === 0) return currentState;
+const UNDO = 'UNDO';
+const REDO = 'REDO';
+const SET = 'SET';
+const RSET = 'REST';
+
+type State<T> = {
+  past: T[];
+  present: T;
+  future: T[];
+};
+
+type Action<T> = {
+  newPresent?: T;
+  type: typeof UNDO | typeof REDO | typeof SET | typeof RSET;
+};
+
+const undoReducer = <T>(state: State<T>, action: Action<T>) => {
+  const { past, present, future } = state;
+  const { newPresent } = action;
+  switch (action.type) {
+    case UNDO: {
+      // const { past, present, future } = currentState;
+      if (past.length === 0) return state;
       const previous = past[past.length - 1];
       const newPast = past.slice(0, past.length - 1);
       return {
@@ -38,16 +39,9 @@ export const useUndo = <T>(initialPresent: T) => {
         present: previous,
         future: [present, ...future],
       };
-      // setPast(newPast);
-      // setPresent(previous);
-      // setFuture([present, ...future]);
-    });
-  }, []);
-
-  const redo = useCallback(() => {
-    setState((currentState) => {
-      const { past, present, future } = currentState;
-      if (future.length === 0) return currentState;
+    }
+    case REDO: {
+      if (future.length === 0) return state;
       const next = future[0];
       const newFuture = future.slice(1);
       return {
@@ -55,40 +49,61 @@ export const useUndo = <T>(initialPresent: T) => {
         present: next,
         future: newFuture,
       };
-      // setPast([...past, present]);
-      // setPresent(next);
-      // setFuture(newFuture);
-    });
-  }, []);
-
-  const set = useCallback((newPresent: T) => {
-    setState((currentState) => {
-      const { past, present } = currentState;
+    }
+    case SET: {
       if (newPresent === present) {
-        return currentState;
+        return state;
       }
       return {
         past: [...past, present],
         present: newPresent,
         future: [],
       };
-      // setPast([...past, present]);
-      // setPresent(newPresent);
-      // setFuture([]);
-    });
-  }, []);
-
-  const reset = useCallback((newPresent: T) => {
-    setState(() => {
+    }
+    case RSET: {
       return {
         past: [],
         present: newPresent,
         future: [],
       };
-      // setPast([]);
-      // setPresent(newPresent);
-      // setFuture([]);
-    });
+    }
+  }
+  return state;
+};
+
+export const useUndo = <T>(initialPresent: T) => {
+  const [state, dispatch] = useReducer(undoReducer, {
+    past: [],
+    present: initialPresent,
+    future: [],
+  } as State<T>);
+  // 合并状态，复杂度降低
+  // const [state, setState] = useState<{
+  //   past: T[];
+  //   present: T;
+  //   future: T[];
+  // }>({
+  //   past: [],
+  //   present: initialPresent,
+  //   future: [],
+  // });
+  const canUndo = state.past.length !== 0;
+  const canRedo = state.future.length !== 0;
+
+  const undo = useCallback(() => {
+    dispatch({ type: UNDO });
+  }, []);
+
+  const redo = useCallback(() => {
+    dispatch({ type: REDO });
+  }, []);
+
+  const set = useCallback((newPresent: T) => {
+    dispatch({ type: SET, newPresent });
+  }, []);
+
+  const reset = useCallback((newPresent: T) => {
+    dispatch({ type: RSET, newPresent });
   }, []);
   return [
     state,
