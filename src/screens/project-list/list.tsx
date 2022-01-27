@@ -3,7 +3,7 @@
 @Description: 搜索列表
 @version: 0.0.0
 @Date: 2022-01-03 19:56:42
-@LastEditTime: 2022-01-25 14:35:09
+@LastEditTime: 2022-01-27 16:47:01
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\list.tsx
  */
@@ -13,7 +13,9 @@ import { Pin } from 'components/pin';
 import dayjs from 'dayjs';
 import { useEditProject } from 'hooks/use-projects';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { projectListActions } from './project-list-slice';
 import { User } from './search-panel';
 
 // react-router和react-router-dom的关系 类似react和react-dom
@@ -37,6 +39,8 @@ export const List = ({ users, ...props }: ListProps) => {
   // 使用柯里化函数;
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({ id, pin }).then(props.refresh);
+
+  const dispatch = useDispatch();
   return (
     <Table
       pagination={false}
@@ -98,7 +102,9 @@ export const List = ({ users, ...props }: ListProps) => {
                     <Menu.Item key={'edit'}>
                       <ButtonNoPadding
                         type="link"
-                        onClick={() => props.projectButton}
+                        onClick={() =>
+                          dispatch(projectListActions.openProjectModal())
+                        }
                       >
                         编辑
                       </ButtonNoPadding>
