@@ -3,7 +3,7 @@
 @Description: 搜索列表查询组件
 @version: 0.0.0
 @Date: 2022-01-03 19:49:06
-@LastEditTime: 2022-02-08 18:43:54
+@LastEditTime: 2022-02-08 19:43:11
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\index.tsx
  */
@@ -16,7 +16,7 @@ import { useProjects } from 'hooks/use-projects';
 import { useUsers } from 'hooks/use-Users';
 import { Button, Typography } from 'antd';
 import { useProjectModal, useProjectsSearchParams } from './util';
-import { ButtonNoPadding, Row } from 'components/lib';
+import { ButtonNoPadding, ErrorBox, Row } from 'components/lib';
 
 export const ProjectListScreen = () => {
   // 状态提升可以让组件共享状态，但是容易造成 prop drilling
@@ -28,7 +28,6 @@ export const ProjectListScreen = () => {
     isLoading,
     error,
     data: list,
-    retry,
   } = useProjects(useDebounce(param, 1000));
   const { data: users } = useUsers();
   const { open } = useProjectModal();
@@ -43,15 +42,8 @@ export const ProjectListScreen = () => {
       </Row>
 
       <SearchPanel param={param} setParam={setParam} users={users || []} />
-      {error ? (
-        <Typography.Text type="danger">{error.message}</Typography.Text>
-      ) : null}
-      <List
-        refresh={retry}
-        loading={isLoading}
-        dataSource={list || []}
-        users={users || []}
-      />
+      {error ? <ErrorBox error={error} /> : null}
+      <List loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>
   );
 };

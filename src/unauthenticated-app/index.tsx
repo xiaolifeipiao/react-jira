@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-06 23:37:03
-@LastEditTime: 2022-01-19 15:59:01
+@LastEditTime: 2022-02-08 19:43:28
 @LastEditors: xiaolifeipiao
 @FilePath: \src\unauthenticated-app\index.tsx
  */
@@ -15,6 +15,7 @@ import styled from '@emotion/styled';
 import logo from 'assets/logo.svg';
 import left from 'assets/left.svg';
 import right from 'assets/right.svg';
+import { ErrorBox } from 'components/lib';
 
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
@@ -26,9 +27,7 @@ export const UnauthenticatedApp = () => {
       <Background />
       <ShowCard>
         <Title>{isRegister ? '请注册' : '请登录'}</Title>
-        {error ? (
-          <Typography.Text type="danger">{error.message}</Typography.Text>
-        ) : null}
+        {error ? <ErrorBox error={error} /> : null}
         {isRegister ? (
           <RegisterScreen onError={setError} />
         ) : (

@@ -3,7 +3,7 @@
 @Description: 定制一个可以改变的组件
 @version: 0.0.0
 @Date: 2022-01-18 16:17:22
-@LastEditTime: 2022-01-24 16:27:25
+@LastEditTime: 2022-02-08 19:41:55
 @LastEditors: xiaolifeipiao
 @FilePath: \src\components\lib.tsx
  */
@@ -50,10 +50,20 @@ const FullPage = styled.div`
 export const FullPageErrorFallback = ({ error }: { error: Error | null }) => (
   <FullPage>
     <DevTools />;
-    <Typography.Text type="danger">{error?.message}</Typography.Text>
+    <ErrorBox error={error} />
   </FullPage>
 );
 
 export const ButtonNoPadding = styled(Button)`
   padding: 0;
 `;
+
+// 类型守卫，
+const isError = (value: any): value is Error => value?.message;
+// 定义一个接受多种类型的错误组件
+export const ErrorBox = ({ error }: { error: unknown }) => {
+  if (isError(error)) {
+    return <Typography.Text type="danger">{error?.message}</Typography.Text>;
+  }
+  return null;
+};

@@ -3,7 +3,7 @@
 @Description: 搜索列表
 @version: 0.0.0
 @Date: 2022-01-03 19:56:42
-@LastEditTime: 2022-02-08 18:50:32
+@LastEditTime: 2022-02-08 19:58:38
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\list.tsx
  */
@@ -35,8 +35,7 @@ export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject();
   // const pinProject = (id: number, pin: boolean) => mutate({ id, pin });
   // 使用柯里化函数;
-  const pinProject = (id: number) => (pin: boolean) =>
-    mutate({ id, pin }).then(props.refresh);
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
   return (
     <Table
       pagination={false}
