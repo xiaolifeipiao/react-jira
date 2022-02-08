@@ -3,7 +3,7 @@
 @Description: 搜索列表
 @version: 0.0.0
 @Date: 2022-01-03 19:56:42
-@LastEditTime: 2022-01-27 16:47:01
+@LastEditTime: 2022-02-08 17:09:04
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\list.tsx
  */
@@ -31,7 +31,7 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
-  projectButton: JSX.Element;
+  // projectButton: JSX.Element;
 }
 export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject();
@@ -43,6 +43,7 @@ export const List = ({ users, ...props }: ListProps) => {
   const dispatch = useDispatch();
   return (
     <Table
+      rowKey={'id'}
       pagination={false}
       columns={[
         {

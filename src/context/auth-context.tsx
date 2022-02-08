@@ -3,35 +3,28 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-06 22:45:18
-@LastEditTime: 2022-01-19 17:26:05
+@LastEditTime: 2022-02-08 17:42:59
 @LastEditors: xiaolifeipiao
 @FilePath: \src\context\auth-context.tsx
  */
-import React, { ReactNode, useState } from 'react';
+
+import React, { ReactNode, useCallback } from 'react';
 import * as auth from 'auth-provider';
 import { User } from 'screens/project-list/search-panel';
 import { http } from 'utils/http';
-import { useMount } from 'hooks';
-import { useAsync } from 'hooks/use-async';
 import { FullPageErrorFallback, FullPageLoading } from 'components/lib';
+import * as authStore from 'store/auth-slice';
+import { bootstrap, selectUser } from 'store/auth-slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAsync } from 'hooks/use-async';
+import { useMount } from 'hooks';
 
-interface AuthForm {
+export interface AuthForm {
   username: string;
   password: string;
 }
-interface AuthContextProps {
-  user: User | null;
-  register: (from: AuthForm) => Promise<void>;
-  login: (from: AuthForm) => Promise<void>;
-  logout: () => Promise<void>;
-}
-const AuthContext = React.createContext<AuthContextProps | undefined>(
-  undefined
-);
-AuthContext.displayName = 'AuthContext';
 
-// 浏览器刷新初始化
-const bootstrapUser = async () => {
+export const bootstrapUser = async () => {
   let user = null;
   const token = auth.getToken();
   if (token) {
@@ -42,46 +35,40 @@ const bootstrapUser = async () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  // const [user, setUser] = useState<User | null>(null);
-  const {
-    data: user,
-    error,
-    isLoading,
-    isIdle,
-    isError,
-    run,
-    setData: setUser,
-  } = useAsync<User | null>();
+  const { error, isLoading, isIdle, isError, run } = useAsync<User | null>();
+  const dispatch: (...args: unknown[]) => Promise<User> = useDispatch();
 
-  const login = (from: AuthForm) => auth.login(from).then(setUser);
-  const register = (from: AuthForm) => auth.register(from).then(setUser);
-  const logout = () => auth.logout().then(() => setUser(null));
-
-  // 刷新初始化
   useMount(() => {
-    run(bootstrapUser());
+    run(dispatch(bootstrap()));
   });
-  //初始化和加载时
+
   if (isIdle || isLoading) {
     return <FullPageLoading />;
   }
-  // 发生错误信息是me请求失败
+
   if (isError) {
     return <FullPageErrorFallback error={error} />;
   }
 
-  return (
-    <AuthContext.Provider
-      children={children}
-      value={{ user, login, register, logout }}
-    />
-  );
+  return <div>{children}</div>;
 };
 
 export const useAuth = () => {
-  const context = React.useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth必须在AuthProvider中使用');
-  }
-  return context;
+  const dispatch: (...args: unknown[]) => Promise<User> = useDispatch();
+  const user = useSelector(selectUser);
+  const login = useCallback(
+    (form: AuthForm) => dispatch(authStore.login(form)),
+    [dispatch]
+  );
+  const register = useCallback(
+    (form: AuthForm) => dispatch(authStore.register(form)),
+    [dispatch]
+  );
+  const logout = useCallback(() => dispatch(authStore.logout()), [dispatch]);
+  return {
+    user,
+    login,
+    register,
+    logout,
+  };
 };

@@ -3,7 +3,7 @@
 @Description: 登录
 @version: 0.0.0
 @Date: 2022-01-06 23:37:14
-@LastEditTime: 2022-01-19 16:56:46
+@LastEditTime: 2022-02-08 16:19:21
 @LastEditors: xiaolifeipiao
 @FilePath: \src\unauthenticated-app\login.tsx
  */
@@ -12,6 +12,7 @@ import React from 'react';
 import { Form, Input } from 'antd';
 import { LongButton } from 'unauthenticated-app';
 import { useAsync } from 'hooks/use-async';
+import { useDispatch } from 'react-redux';
 
 export const LoginScreen = ({
   onError,
@@ -30,7 +31,6 @@ export const LoginScreen = ({
   //     .value;
   //   login({ username, password });
   // };
-
   const handelSubmit = async (values: {
     username: string;
     password: string;
