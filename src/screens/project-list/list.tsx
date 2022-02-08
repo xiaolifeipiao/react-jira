@@ -3,7 +3,7 @@
 @Description: 搜索列表
 @version: 0.0.0
 @Date: 2022-01-03 19:56:42
-@LastEditTime: 2022-01-25 14:35:09
+@LastEditTime: 2022-02-08 18:50:32
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\list.tsx
  */
@@ -29,7 +29,7 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
-  projectButton: JSX.Element;
+  // projectButton: JSX.Element;
 }
 export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject();
@@ -95,14 +95,7 @@ export const List = ({ users, ...props }: ListProps) => {
               <Dropdown
                 overlay={
                   <Menu>
-                    <Menu.Item key={'edit'}>
-                      <ButtonNoPadding
-                        type="link"
-                        onClick={() => props.projectButton}
-                      >
-                        编辑
-                      </ButtonNoPadding>
-                    </Menu.Item>
+                    <Menu.Item key={'edit'}></Menu.Item>
                   </Menu>
                 }
               >

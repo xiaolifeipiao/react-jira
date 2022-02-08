@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-24 16:10:17
-@LastEditTime: 2022-01-25 14:29:55
+@LastEditTime: 2022-02-08 18:41:23
 @LastEditors: xiaolifeipiao
 @FilePath: \src\components\project-popover.tsx
  */
@@ -11,9 +11,11 @@ import styled from '@emotion/styled';
 import { Popover, Typography, List, Divider } from 'antd';
 import { useProjects } from 'hooks/use-projects';
 import React from 'react';
+import { useProjectModal } from 'screens/project-list/util';
 import { ButtonNoPadding } from './lib';
 
-export const ProjectPopover = (props: { projectButton: JSX.Element }) => {
+export const ProjectPopover = () => {
+  const { open } = useProjectModal();
   const { data: projects, isLoading } = useProjects();
   const pinnedProjects = projects?.filter((project) => project.pin);
   const content = (
@@ -27,7 +29,9 @@ export const ProjectPopover = (props: { projectButton: JSX.Element }) => {
         ))}
       </List>
       <Divider />
-      {props.projectButton}
+      <ButtonNoPadding onClick={open} type="link">
+        创建项目
+      </ButtonNoPadding>
     </ContentContainer>
   );
   return (
