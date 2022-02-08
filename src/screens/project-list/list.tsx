@@ -3,7 +3,7 @@
 @Description: 搜索列表
 @version: 0.0.0
 @Date: 2022-01-03 19:56:42
-@LastEditTime: 2022-02-08 19:58:38
+@LastEditTime: 2022-02-08 21:08:03
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\list.tsx
  */
@@ -15,6 +15,7 @@ import { useEditProject } from 'hooks/use-projects';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { User } from './search-panel';
+import { useProjectModal } from './util';
 
 // react-router和react-router-dom的关系 类似react和react-dom
 
@@ -36,6 +37,9 @@ export const List = ({ users, ...props }: ListProps) => {
   // const pinProject = (id: number, pin: boolean) => mutate({ id, pin });
   // 使用柯里化函数;
   const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
+
+  const { startEdit } = useProjectModal();
+  const editProject = (id: number) => () => startEdit(id);
   return (
     <Table
       pagination={false}
@@ -94,7 +98,10 @@ export const List = ({ users, ...props }: ListProps) => {
               <Dropdown
                 overlay={
                   <Menu>
-                    <Menu.Item key={'edit'}></Menu.Item>
+                    <Menu.Item onClick={editProject(project.id)} key={'edit'}>
+                      编辑
+                    </Menu.Item>
+                    <Menu.Item key={'delete'}>删除</Menu.Item>
                   </Menu>
                 }
               >

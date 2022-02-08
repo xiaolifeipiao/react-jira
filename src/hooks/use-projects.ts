@@ -3,7 +3,7 @@
 @Description: useProject
 @version: 0.0.0
 @Date: 2022-01-19 15:20:03
-@LastEditTime: 2022-02-08 20:03:44
+@LastEditTime: 2022-02-08 21:12:39
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\use-projects.ts
  */
@@ -66,7 +66,7 @@ export const useAddProject = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (params: Partial<Project>) =>
-      client(`projects/${params.id}`, {
+      client(`projects`, {
         data: params,
         method: 'POST',
       }),
@@ -87,4 +87,16 @@ export const useAddProject = () => {
   //   mutate,
   //   ...asyncResult,
   // };
+};
+
+// 获取project详情apI
+export const useProject = (id?: number) => {
+  const client = useHttp();
+  return useQuery<Project>(
+    ['project', { id }],
+    () => client(`projects/${id}`),
+    {
+      enabled: Boolean(id),
+    }
+  );
 };

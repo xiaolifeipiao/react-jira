@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-21 16:29:23
-@LastEditTime: 2022-01-21 16:54:13
+@LastEditTime: 2022-02-08 20:50:01
 @LastEditors: xiaolifeipiao
 @FilePath: \src\components\id-select.tsx
  */
@@ -16,8 +16,8 @@ type SelectProps = React.ComponentProps<typeof Select>;
 
 interface IdSelectProps
   extends Omit<SelectProps, 'value' | 'onChange' | 'options'> {
-  value: Raw | null | undefined;
-  onChange: (value?: number) => void;
+  value?: Raw | null | undefined;
+  onChange?: (value?: number) => void;
   defaultOptionName?: string;
   options?: { name: string; id: number }[];
 }
@@ -38,7 +38,7 @@ export const IdSelect = (props: IdSelectProps) => {
     <Select
       value={options?.length ? toNumber(value) : 0}
       onChange={(value) => {
-        onChange(toNumber(value) || undefined);
+        onChange?.(toNumber(value) || undefined);
       }}
     >
       {defaultOptionName ? (

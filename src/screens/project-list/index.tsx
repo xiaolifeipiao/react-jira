@@ -3,7 +3,7 @@
 @Description: 搜索列表查询组件
 @version: 0.0.0
 @Date: 2022-01-03 19:49:06
-@LastEditTime: 2022-02-08 19:43:11
+@LastEditTime: 2022-02-08 21:25:52
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\index.tsx
  */
@@ -14,7 +14,6 @@ import { List } from './list';
 import styled from '@emotion/styled';
 import { useProjects } from 'hooks/use-projects';
 import { useUsers } from 'hooks/use-Users';
-import { Button, Typography } from 'antd';
 import { useProjectModal, useProjectsSearchParams } from './util';
 import { ButtonNoPadding, ErrorBox, Row } from 'components/lib';
 
@@ -23,6 +22,7 @@ export const ProjectListScreen = () => {
   // 基本类型，可以放到依赖里；组件状态，可以放到依赖里；非组件状态的对象，绝不可以放到依赖里
   // https://codesandbox.io/s/keen-wave-tlz9s?file=/src/App.js
   useDocumentTitle('项目列表', false);
+
   const [param, setParam] = useProjectsSearchParams();
   const {
     isLoading,
@@ -30,6 +30,7 @@ export const ProjectListScreen = () => {
     data: list,
   } = useProjects(useDebounce(param, 1000));
   const { data: users } = useUsers();
+
   const { open } = useProjectModal();
 
   return (
@@ -43,6 +44,7 @@ export const ProjectListScreen = () => {
 
       <SearchPanel param={param} setParam={setParam} users={users || []} />
       {error ? <ErrorBox error={error} /> : null}
+
       <List loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>
   );
