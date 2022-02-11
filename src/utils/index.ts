@@ -3,7 +3,7 @@
 @Description: 清理对象的空值
 @version: 0.0.0
 @Date: 2022-01-04 16:22:46
-@LastEditTime: 2022-01-21 14:45:25
+@LastEditTime: 2022-02-09 00:06:00
 @LastEditors: xiaolifeipiao
 @FilePath: \src\utils\index.ts
  */
@@ -14,9 +14,11 @@ export const isVoid = (value: unknown) =>
   value === undefined || value === null || value === '';
 // 避免对传入的对象进行污染,浅拷贝和深拷贝
 // { [key: string]: unknown })限制 键值对
-export const cleanObject = (object: { [key: string]: unknown }) => {
-  // Object.assign({}, object);
-
+export const cleanObject = (object?: { [key: string]: unknown }) => {
+  // Object.assign({}, object)
+  if (!object) {
+    return {};
+  }
   const result = { ...object };
   Object.keys(result).forEach((key) => {
     const value = result[key];

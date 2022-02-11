@@ -3,14 +3,14 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-24 15:59:11
-@LastEditTime: 2022-02-08 21:34:50
+@LastEditTime: 2022-02-09 00:19:56
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\project-modal.tsx
  */
 
 import React, { useEffect } from 'react';
 import { Button, Drawer, Form, Input, Spin } from 'antd';
-import { useProjectModal } from './util';
+import { useProjectModal, useProjectsQueryKey } from './util';
 import { UserSelect } from 'components/user-select';
 import { useAddProject, useEditProject } from 'hooks/use-projects';
 import { useForm } from 'antd/lib/form/Form';
@@ -22,7 +22,11 @@ export const ProjectModal = () => {
     useProjectModal();
   const useMutateProject = editingProject ? useEditProject : useAddProject;
 
-  const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject();
+  const {
+    mutateAsync,
+    error,
+    isLoading: mutateLoading,
+  } = useMutateProject(useProjectsQueryKey());
   const [form] = useForm();
   const onFinish = (values: any) => {
     mutateAsync({ ...editingProject, ...values }).then(() => {

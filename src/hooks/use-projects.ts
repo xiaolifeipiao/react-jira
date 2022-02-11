@@ -3,93 +3,66 @@
 @Description: useProject
 @version: 0.0.0
 @Date: 2022-01-19 15:20:03
-@LastEditTime: 2022-02-08 21:12:39
+@LastEditTime: 2022-02-09 00:20:37
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\use-projects.ts
  */
+
 import { useHttp } from 'hooks';
-import { useCallback, useEffect } from 'react';
-import { Project } from '../screens/project-list/list';
-import { useAsync } from './use-async';
+import { QueryKey, useMutation, useQuery } from 'react-query';
+import { Project } from 'types/project';
 import { cleanObject } from 'utils/index';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import {
+  useAddConfig,
+  useDeleteConfig,
+  useEditConfig,
+} from './use-optimistic-options';
 
 export const useProjects = (param?: Partial<Project>) => {
-  // 使用自定义的useHttp
   const client = useHttp();
-  // 使用react-query改造
-  return useQuery<Project[]>(['projects', param], () =>
+
+  return useQuery<Project[]>(['projects', cleanObject(param)], () =>
     client('projects', { data: param })
   );
-  // 使用自定义useAsync
-  // const { run, ...result } = useAsync<Project[]>();
-  // const fetchProjects = useCallback(
-  //   () => client('projects', { data: cleanObject(param || {}) }),
-  //   [param, client]
-  // );
-  // useEffect(() => {
-  //   run(fetchProjects(), { retry: fetchProjects });
-  // }, [param, run, fetchProjects]);
-  // return result;
 };
 
-// 编辑
-export const useEditProject = () => {
-  // const { run, ...asyncResult } = useAsync();
-  // const mutate = (params: Partial<Project>) => {
-  //   return run(
-  //     client(`projects/${params.id}`, {
-  //       data: params,
-  //       method: 'PATCH',
-  //     })
-  //   );
-  // };
-  // return {
-  //   mutate,
-  //   ...asyncResult,
-  // };
+export const useEditProject = (queryKey: QueryKey) => {
   const client = useHttp();
-  const queryClient = useQueryClient();
   return useMutation(
     (params: Partial<Project>) =>
       client(`projects/${params.id}`, {
         method: 'PATCH',
         data: params,
       }),
-    { onSuccess: () => queryClient.invalidateQueries('projects') }
+    useEditConfig(queryKey)
   );
 };
 
-// 添加
-export const useAddProject = () => {
+export const useAddProject = (queryKey: QueryKey) => {
   const client = useHttp();
-  const queryClient = useQueryClient();
+
   return useMutation(
     (params: Partial<Project>) =>
       client(`projects`, {
         data: params,
         method: 'POST',
       }),
-    {
-      onSuccess: () => queryClient.invalidateQueries('projects'),
-    }
+    useAddConfig(queryKey)
   );
-  // const { run, ...asyncResult } = useAsync();
-  // const mutate = (params: Partial<Project>) => {
-  //   return run(
-  //     client(`projects/${params.id}`, {
-  //       data: params,
-  //       method: 'POST',
-  //     })
-  //   );
-  // };
-  // return {
-  //   mutate,
-  //   ...asyncResult,
-  // };
 };
 
-// 获取project详情apI
+export const useDeleteProject = (queryKey: QueryKey) => {
+  const client = useHttp();
+
+  return useMutation(
+    ({ id }: { id: number }) =>
+      client(`projects/${id}`, {
+        method: 'DELETE',
+      }),
+    useDeleteConfig(queryKey)
+  );
+};
+
 export const useProject = (id?: number) => {
   const client = useHttp();
   return useQuery<Project>(

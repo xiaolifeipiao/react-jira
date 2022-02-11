@@ -3,7 +3,7 @@
 @Description: 返回页面url中，指定键的参数值
 @version: 0.0.0
 @Date: 2022-01-21 15:01:24
-@LastEditTime: 2022-01-22 23:34:49
+@LastEditTime: 2022-02-09 00:27:25
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\url.ts
  */
@@ -45,3 +45,14 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
 //     return setSearchParam(o);
 //   };
 // };
+
+export const useSetUrlSearchParam = () => {
+  const [searchParams, setSearchParam] = useSearchParams();
+  return (params: { [key in string]: unknown }) => {
+    const o = cleanObject({
+      ...Object.fromEntries(searchParams),
+      ...params,
+    }) as URLSearchParamsInit;
+    return setSearchParam(o);
+  };
+};
