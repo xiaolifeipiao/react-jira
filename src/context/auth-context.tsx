@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-06 22:45:18
-@LastEditTime: 2022-02-12 16:03:09
+@LastEditTime: 2022-02-12 18:07:00
 @LastEditors: xiaolifeipiao
 @FilePath: \src\context\auth-context.tsx
  */
@@ -14,6 +14,7 @@ import { http } from 'utils/http';
 import { useMount } from 'hooks';
 import { useAsync } from 'hooks/use-async';
 import { FullPageErrorFallback, FullPageLoading } from 'components/lib';
+import { useQueryClient } from 'react-query';
 
 interface AuthForm {
   username: string;
@@ -51,9 +52,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setData: setUser,
   } = useAsync<User | null>();
 
+  const queryClient = useQueryClient();
   const login = (from: AuthForm) => auth.login(from).then(setUser);
   const register = (from: AuthForm) => auth.register(from).then(setUser);
-  const logout = () => auth.logout().then(() => setUser(null));
+  const logout = () =>
+    auth.logout().then(() => {
+      setUser(null);
+      queryClient.clear();
+    });
 
   // 刷新初始化
   useMount(

@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-24 15:59:11
-@LastEditTime: 2022-02-12 15:39:50
+@LastEditTime: 2022-02-12 18:01:33
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\project-modal.tsx
  */
@@ -27,6 +27,7 @@ export const ProjectModal = () => {
       close();
     });
   };
+  // 解决创建项目之前清空modal
   const closeModal = () => {
     form.resetFields();
     close();
