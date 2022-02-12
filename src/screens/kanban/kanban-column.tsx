@@ -3,21 +3,22 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-02-12 19:00:27
-@LastEditTime: 2022-02-12 21:47:24
+@LastEditTime: 2022-02-12 23:15:31
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\kanban\kanban-column.tsx
  */
 import { useTaskTypes } from 'hooks/task-type';
 import { useTasks } from 'hooks/use-task';
 import React from 'react';
-import { kanban } from 'types/kanban';
+import { Kanban } from 'types/kanban';
 import { useTasksSearchParams } from './util';
 import taskIcon from 'assets/task.svg';
 import bugIcon from 'assets/bug.svg';
 import styled from '@emotion/styled';
 import { Card } from 'antd';
+import { CreateTask } from './create-task';
 
-export const KanbanColumn = ({ kanban }: { kanban: kanban }) => {
+export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
   const { data: allTasks } = useTasks(useTasksSearchParams());
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
   return (
@@ -30,6 +31,7 @@ export const KanbanColumn = ({ kanban }: { kanban: kanban }) => {
             <TaskTypeIcon id={task.typeId} />
           </Card>
         ))}
+        <CreateTask kanbanId={kanban.id} />
       </TasksContainer>
     </Container>
   );
@@ -44,7 +46,7 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
   return <img alt={'task-icon'} src={name === 'task' ? taskIcon : bugIcon} />;
 };
 
-const Container = styled.div`
+export const Container = styled.div`
   min-width: 27rem;
   border-radius: 6px;
   background-color: rgb(244, 245, 247);

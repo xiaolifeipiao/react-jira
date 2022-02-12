@@ -3,7 +3,7 @@
 @Description: grad和flex的使用场景  
 @version: 0.0.0
 @Date: 2022-01-06 23:47:14
-@LastEditTime: 2022-02-12 22:08:48
+@LastEditTime: 2022-02-12 23:23:43
 @LastEditors: xiaolifeipiao
 @FilePath: \src\authenticated-app.tsx
  */
@@ -88,7 +88,7 @@ const PageHeader = () => {
 // 页面头部导航条样式
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 6rem 1fr 6rem;
+  grid-template-rows: 6rem 1fr;
   /* grid-template-columns: 20rem 1fr 20rem;
   grid-template-areas:
     'header header header'

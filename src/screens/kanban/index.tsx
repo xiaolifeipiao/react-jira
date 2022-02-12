@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-21 13:49:17
-@LastEditTime: 2022-02-12 22:25:31
+@LastEditTime: 2022-02-12 23:06:32
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\kanban\index.tsx
  */
@@ -14,6 +14,7 @@ import { useDocumentTitle } from 'hooks';
 import { useKanbans } from 'hooks/use-kanban';
 import { useTasks } from 'hooks/use-task';
 import React from 'react';
+import { CreateKanban } from './create-kanban';
 import { KanbanColumn } from './kanban-column';
 import { SearchPanel } from './search-panel';
 import { useKanbanSearchParams, useProjectInUrl, useTasksSearchParams } from './util';
@@ -37,13 +38,14 @@ export const KanbanScreen = () => {
           {kanbans?.map((kanban) => (
             <KanbanColumn kanban={kanban} key={kanban.id} />
           ))}
+          <CreateKanban />
         </ColumnContainer>
       )}
     </ScreenContainer>
   );
 };
 
-const ColumnContainer = styled.div`
+export const ColumnContainer = styled.div`
   display: flex;
   overflow-x: scroll;
   flex: 1;

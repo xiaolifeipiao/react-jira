@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-19 22:26:17
-@LastEditTime: 2022-02-12 22:05:13
+@LastEditTime: 2022-02-12 23:09:25
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project\index.tsx
  */
@@ -62,4 +62,5 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 16rem 1fr;
   width: 100%;
+  overflow: hidden;
 `;
