@@ -3,7 +3,7 @@
 @Description: 定制一个可以改变的组件
 @version: 0.0.0
 @Date: 2022-01-18 16:17:22
-@LastEditTime: 2022-02-08 19:41:55
+@LastEditTime: 2022-02-12 21:58:06
 @LastEditors: xiaolifeipiao
 @FilePath: \src\components\lib.tsx
  */
@@ -25,11 +25,7 @@ export const Row = styled.div<{
     margin-top: 0 !important;
     margin-bottom: 0 !important;
     margin-right: ${(props) =>
-      typeof props.gap === 'number'
-        ? props.gap + 'rem'
-        : props.gap
-        ? '2rem'
-        : undefined};
+      typeof props.gap === 'number' ? props.gap + 'rem' : props.gap ? '2rem' : undefined};
   }
 `;
 
@@ -67,3 +63,10 @@ export const ErrorBox = ({ error }: { error: unknown }) => {
   }
   return null;
 };
+
+export const ScreenContainer = styled.div`
+  padding: 3.2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;

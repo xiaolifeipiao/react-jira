@@ -3,7 +3,7 @@
 @Description: grad和flex的使用场景  
 @version: 0.0.0
 @Date: 2022-01-06 23:47:14
-@LastEditTime: 2022-02-08 18:47:10
+@LastEditTime: 2022-02-12 22:08:48
 @LastEditors: xiaolifeipiao
 @FilePath: \src\authenticated-app.tsx
  */
@@ -43,10 +43,7 @@ export const AuthenticatedApp = () => {
 
           <Routes>
             <Route path={'/projects'} element={<ProjectListScreen />} />
-            <Route
-              path={'/projects/:projectId/*'}
-              element={<ProjectScreen />}
-            />
+            <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
             <Route index element={<ProjectListScreen />} />
           </Routes>
         </Main>
@@ -104,6 +101,8 @@ const Container = styled.div`
 const Main = styled.main`
   /* grid-area: main; */
   /* height: calc(100vh - 6rem); */
+  display: flex;
+  overflow: hidden;
 `;
 
 const Header = styled(Row)`
