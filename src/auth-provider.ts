@@ -8,7 +8,7 @@
 @FilePath: \src\auth-provider.ts
  */
 
-import { User } from 'screens/project-list/search-panel';
+import { User } from 'types/User';
 
 const baseApiUrl = process.env.REACT_APP_API_URL;
 // 在真实环境中，如果使用firebase这种三方auth服务，则不用自己自己开发
@@ -51,5 +51,4 @@ export const register = (data: { username: string; password: string }) => {
   });
 };
 // 登出
-export const logout = async () =>
-  window.localStorage.removeItem(localStorageKey);
+export const logout = async () => window.localStorage.removeItem(localStorageKey);

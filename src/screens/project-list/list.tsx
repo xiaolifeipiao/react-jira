@@ -9,7 +9,7 @@ import { Pin } from 'components/pin';
 import { ButtonNoPadding } from 'components/lib';
 import { useProjectModal, useProjectsQueryKey } from 'screens/project-list/util';
 import { Project } from 'types/project';
-import { User } from './search-panel';
+import { User } from '../../types/User';
 import { useDeleteProject, useEditProject } from 'hooks/use-projects';
 
 interface ListProps extends TableProps<Project> {

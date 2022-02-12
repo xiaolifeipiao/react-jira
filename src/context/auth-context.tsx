@@ -3,13 +3,13 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-06 22:45:18
-@LastEditTime: 2022-02-12 18:07:00
+@LastEditTime: 2022-02-12 18:12:09
 @LastEditors: xiaolifeipiao
 @FilePath: \src\context\auth-context.tsx
  */
 import React, { ReactNode, useCallback } from 'react';
 import * as auth from 'auth-provider';
-import { User } from 'screens/project-list/search-panel';
+import { User } from 'types/User';
 import { http } from 'utils/http';
 import { useMount } from 'hooks';
 import { useAsync } from 'hooks/use-async';
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useMount(
     useCallback(() => {
       run(bootstrapUser());
-    }, [])
+    }, [run])
   );
   //初始化和加载时
   if (isIdle || isLoading) {

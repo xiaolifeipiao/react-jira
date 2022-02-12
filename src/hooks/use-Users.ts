@@ -9,7 +9,7 @@
  */
 import { useHttp } from 'hooks';
 import { useQuery } from 'react-query';
-import { User } from 'screens/project-list/search-panel';
+import { User } from 'types/User';
 
 export const useUsers = (param?: Partial<User>) => {
   const client = useHttp();
