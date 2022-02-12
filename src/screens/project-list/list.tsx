@@ -5,13 +5,11 @@ import { TableProps } from 'antd/es/table';
 // react-router 和 react-router-dom的关系，类似于 react 和 react-dom/react-native/react-vr...
 import { Link } from 'react-router-dom';
 import { Pin } from 'components/pin';
+
 import { ButtonNoPadding } from 'components/lib';
-import {
-  useProjectModal,
-  useProjectsQueryKey,
-} from 'screens/project-list/util';
-import { User } from './search-panel';
+import { useProjectModal, useProjectsQueryKey } from 'screens/project-list/util';
 import { Project } from 'types/project';
+import { User } from './search-panel';
 import { useDeleteProject, useEditProject } from 'hooks/use-projects';
 
 interface ListProps extends TableProps<Project> {
@@ -29,21 +27,14 @@ export const List = ({ users, ...props }: ListProps) => {
         {
           title: <Pin checked={true} disabled={true} />,
           render(value, project) {
-            return (
-              <Pin
-                checked={project.pin}
-                onCheckedChange={pinProject(project.id)}
-              />
-            );
+            return <Pin checked={project.pin} onCheckedChange={pinProject(project.id)} />;
           },
         },
         {
           title: '名称',
           sorter: (a, b) => a.name.localeCompare(b.name),
           render(value, project) {
-            return (
-              <Link to={`projects/${String(project.id)}`}>{project.name}</Link>
-            );
+            return <Link to={`projects/${String(project.id)}`}>{project.name}</Link>;
           },
         },
         {
@@ -54,10 +45,7 @@ export const List = ({ users, ...props }: ListProps) => {
           title: '负责人',
           render(value, project) {
             return (
-              <span>
-                {users.find((user) => user.id === project.personId)?.name ||
-                  '未知'}
-              </span>
+              <span>{users.find((user) => user.id === project.personId)?.name || '未知'}</span>
             );
           },
         },
@@ -65,11 +53,7 @@ export const List = ({ users, ...props }: ListProps) => {
           title: '创建时间',
           render(value, project) {
             return (
-              <span>
-                {project.created
-                  ? dayjs(project.created).format('YYYY-MM-DD')
-                  : '无'}
-              </span>
+              <span>{project.created ? dayjs(project.created).format('YYYY-MM-DD') : '无'}</span>
             );
           },
         },
@@ -105,10 +89,7 @@ const More = ({ project }: { project: Project }) => {
           <Menu.Item onClick={editProject(project.id)} key={'edit'}>
             编辑
           </Menu.Item>
-          <Menu.Item
-            onClick={() => confirmDeleteProject(project.id)}
-            key={'delete'}
-          >
+          <Menu.Item onClick={() => confirmDeleteProject(project.id)} key={'delete'}>
             删除
           </Menu.Item>
         </Menu>

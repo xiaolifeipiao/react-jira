@@ -3,11 +3,11 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-06 22:45:18
-@LastEditTime: 2022-01-19 17:26:05
+@LastEditTime: 2022-02-12 16:03:09
 @LastEditors: xiaolifeipiao
 @FilePath: \src\context\auth-context.tsx
  */
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useCallback } from 'react';
 import * as auth from 'auth-provider';
 import { User } from 'screens/project-list/search-panel';
 import { http } from 'utils/http';
@@ -25,9 +25,7 @@ interface AuthContextProps {
   login: (from: AuthForm) => Promise<void>;
   logout: () => Promise<void>;
 }
-const AuthContext = React.createContext<AuthContextProps | undefined>(
-  undefined
-);
+const AuthContext = React.createContext<AuthContextProps | undefined>(undefined);
 AuthContext.displayName = 'AuthContext';
 
 // 浏览器刷新初始化
@@ -58,9 +56,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => auth.logout().then(() => setUser(null));
 
   // 刷新初始化
-  useMount(() => {
-    run(bootstrapUser());
-  });
+  useMount(
+    useCallback(() => {
+      run(bootstrapUser());
+    }, [])
+  );
   //初始化和加载时
   if (isIdle || isLoading) {
     return <FullPageLoading />;
@@ -70,12 +70,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return <FullPageErrorFallback error={error} />;
   }
 
-  return (
-    <AuthContext.Provider
-      children={children}
-      value={{ user, login, register, logout }}
-    />
-  );
+  return <AuthContext.Provider children={children} value={{ user, login, register, logout }} />;
 };
 
 export const useAuth = () => {

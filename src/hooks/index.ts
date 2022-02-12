@@ -3,7 +3,7 @@
 @Description: custom hook
 @version: 0.0.0
 @Date: 2022-01-04 17:22:03
-@LastEditTime: 2022-01-22 23:25:38
+@LastEditTime: 2022-02-12 15:58:25
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\index.ts
  */
@@ -14,7 +14,7 @@ import { http } from 'utils/http';
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
-  }, []);
+  }, [callback]);
 };
 
 // 泛型定义输入类型什么返回什么类型
@@ -89,4 +89,17 @@ export const useMountedRef = () => {
     };
   });
   return mountedRef;
+};
+
+/**
+ * 传入一个对象，和键集合，返回对应的对象中的键值对
+ * @param obj
+ * @param keys
+ */
+export const subset = <O extends { [key in string]: unknown }, K extends keyof O>(
+  obj: O,
+  keys: K[]
+) => {
+  const filteredEntries = Object.entries(obj).filter(([key]) => keys.includes(key as K));
+  return Object.fromEntries(filteredEntries) as Pick<O, K>;
 };
