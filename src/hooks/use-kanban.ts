@@ -3,14 +3,14 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-02-12 18:35:13
-@LastEditTime: 2022-02-12 22:38:27
+@LastEditTime: 2022-02-13 00:08:58
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\use-kanban.ts
  */
 
 import { useHttp } from 'hooks';
 import { QueryKey, useMutation, useQuery } from 'react-query';
-import { useAddConfig } from './use-optimistic-options';
+import { useAddConfig, useDeleteConfig } from './use-optimistic-options';
 import { Kanban } from 'types/kanban';
 
 export const useKanbans = (param?: Partial<Kanban>) => {
@@ -31,3 +31,26 @@ export const useAddKanban = (queryKey: QueryKey) => {
     useAddConfig(queryKey)
   );
 };
+
+export const useDeleteKanban = (queryKey: QueryKey) => {
+  const client = useHttp();
+
+  return useMutation(
+    ({ id }: { id: number }) =>
+      client(`kanbans/${id}`, {
+        method: 'DELETE',
+      }),
+    useDeleteConfig(queryKey)
+  );
+};
+
+export interface SortProps {
+  // 要重新排序的 item
+  fromId: number;
+  // 目标 item
+  referenceId: number;
+  // 放在目标item的前还是后
+  type: 'before' | 'after';
+  fromKanbanId?: number;
+  toKanbanId?: number;
+}

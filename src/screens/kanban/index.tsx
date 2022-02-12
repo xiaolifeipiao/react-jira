@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-21 13:49:17
-@LastEditTime: 2022-02-12 23:06:32
+@LastEditTime: 2022-02-12 23:46:19
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\kanban\index.tsx
  */
@@ -17,6 +17,7 @@ import React from 'react';
 import { CreateKanban } from './create-kanban';
 import { KanbanColumn } from './kanban-column';
 import { SearchPanel } from './search-panel';
+import { TaskModal } from './task-modal';
 import { useKanbanSearchParams, useProjectInUrl, useTasksSearchParams } from './util';
 
 export const KanbanScreen = () => {
@@ -41,6 +42,7 @@ export const KanbanScreen = () => {
           <CreateKanban />
         </ColumnContainer>
       )}
+      <TaskModal />
     </ScreenContainer>
   );
 };

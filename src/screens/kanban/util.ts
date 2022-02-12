@@ -3,13 +3,14 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-02-12 18:44:46
-@LastEditTime: 2022-02-12 21:43:43
+@LastEditTime: 2022-02-12 23:53:58
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\kanban\util.ts
  */
 import { useUrlQueryParam } from 'hooks/url';
 import { useProject } from 'hooks/use-projects';
-import { useMemo } from 'react';
+import { useTask } from 'hooks/use-task';
+import { useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router';
 
 // 拿到id
@@ -41,3 +42,24 @@ export const useTasksSearchParams = () => {
   );
 };
 export const useTasksQueryKey = () => ['tasks', useTasksSearchParams()];
+
+export const useTasksModal = () => {
+  const [{ editingTaskId }, setEditingTaskId] = useUrlQueryParam(['editingTaskId']);
+  const { data: editingTask, isLoading } = useTask(Number(editingTaskId));
+  const startEdit = useCallback(
+    (id: number) => {
+      setEditingTaskId({ editingTaskId: id });
+    },
+    [setEditingTaskId]
+  );
+  const close = useCallback(() => {
+    setEditingTaskId({ editingTaskId: '' });
+  }, [setEditingTaskId]);
+  return {
+    editingTaskId,
+    editingTask,
+    startEdit,
+    close,
+    isLoading,
+  };
+};
