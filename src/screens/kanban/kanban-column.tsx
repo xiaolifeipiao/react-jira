@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-02-12 19:00:27
-@LastEditTime: 2022-02-13 00:14:36
+@LastEditTime: 2022-02-14 12:17:37
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\kanban\kanban-column.tsx
  */
@@ -39,24 +39,26 @@ const TaskCard = ({ task }: { task: Task }) => {
   );
 };
 
-export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
-  const { data: allTasks } = useTasks(useTasksSearchParams());
-  const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
-  return (
-    <Container>
-      <Row between={true}>
-        <h3>{kanban.name}</h3>
-        <More kanban={kanban} key={kanban.id} />
-      </Row>
-      <TasksContainer>
-        {tasks?.map((task) => (
-          <TaskCard task={task} />
-        ))}
-        <CreateTask kanbanId={kanban.id} />
-      </TasksContainer>
-    </Container>
-  );
-};
+export const KanbanColumn = React.forwardRef<HTMLDivElement, { kanban: Kanban }>(
+  ({ kanban, ...props }, ref) => {
+    const { data: allTasks } = useTasks(useTasksSearchParams());
+    const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
+    return (
+      <Container {...props} ref={ref}>
+        <Row between={true}>
+          <h3>{kanban.name}</h3>
+          <More kanban={kanban} key={kanban.id} />
+        </Row>
+        <TasksContainer>
+          {tasks?.map((task) => (
+            <TaskCard task={task} key={task.id} />
+          ))}
+          <CreateTask kanbanId={kanban.id} />
+        </TasksContainer>
+      </Container>
+    );
+  }
+);
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes();
