@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-01-24 16:10:17
-@LastEditTime: 2022-02-08 18:41:23
+@LastEditTime: 2022-02-14 14:12:20
 @LastEditors: xiaolifeipiao
 @FilePath: \src\components\project-popover.tsx
  */
@@ -16,7 +16,7 @@ import { ButtonNoPadding } from './lib';
 
 export const ProjectPopover = () => {
   const { open } = useProjectModal();
-  const { data: projects, isLoading } = useProjects();
+  const { data: projects, refetch } = useProjects();
   const pinnedProjects = projects?.filter((project) => project.pin);
   const content = (
     <ContentContainer>
@@ -35,7 +35,7 @@ export const ProjectPopover = () => {
     </ContentContainer>
   );
   return (
-    <Popover placement="bottom" content={content}>
+    <Popover onVisibleChange={() => refetch()} placement="bottom" content={content}>
       <span> 项目</span>
     </Popover>
   );

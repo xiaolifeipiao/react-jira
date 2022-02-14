@@ -1,9 +1,9 @@
 /**
 @Author: xiaolifeipiao
-@Description: 
+@Description: 任务类型
 @version: 0.0.0
 @Date: 2022-02-12 23:41:45
-@LastEditTime: 2022-02-12 23:41:45
+@LastEditTime: 2022-02-14 13:57:24
 @LastEditors: xiaolifeipiao
 @FilePath: \src\types\epic.ts
  */

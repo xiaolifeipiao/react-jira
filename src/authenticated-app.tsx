@@ -3,7 +3,7 @@
 @Description: grad和flex的使用场景  
 @version: 0.0.0
 @Date: 2022-01-06 23:47:14
-@LastEditTime: 2022-02-14 12:28:12
+@LastEditTime: 2022-02-14 14:18:53
 @LastEditors: xiaolifeipiao
 @FilePath: \src\authenticated-app.tsx
  */
@@ -32,6 +32,7 @@ import { resetRoute } from 'utils';
 import { ProjectScreen } from 'screens/project';
 import { ProjectModal } from 'screens/project-list/project-modal';
 import { ProjectPopover } from 'components/project-popover';
+import { UserPopover } from 'components/user-popover';
 
 export const AuthenticatedApp = () => {
   return (
@@ -62,7 +63,7 @@ const PageHeader = () => {
           <SoftwareLogo width={'18rem'} color="rgb(38,132,255)"></SoftwareLogo>
         </ButtonNoPadding>
         <ProjectPopover />
-        <span>用户</span>
+        <UserPopover />
       </HeaderLeft>
       <HeaderRight>
         <Dropdown

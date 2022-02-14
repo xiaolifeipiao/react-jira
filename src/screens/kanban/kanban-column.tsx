@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-02-12 19:00:27
-@LastEditTime: 2022-02-14 13:42:55
+@LastEditTime: 2022-02-14 13:54:18
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\kanban\kanban-column.tsx
  */
@@ -52,6 +52,7 @@ export const KanbanColumn = React.forwardRef<HTMLDivElement, { kanban: Kanban }>
         </Row>
         <TasksContainer>
           <Drop type="ROW" direction="vertical" droppableId={String(kanban.id)}>
+            {/* 防止空时内容不能拖拽进来 */}
             <DropChild style={{ minHeight: '1rem' }}>
               {tasks?.map((task, taskIndex) => (
                 <Drag key={task.id} index={taskIndex} draggableId={'task' + task.id}>
