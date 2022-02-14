@@ -3,11 +3,13 @@
 @Description: 抽象乐观更新
 @version: 0.0.0
 @Date: 2022-02-08 23:53:35
-@LastEditTime: 2022-02-12 15:33:52
+@LastEditTime: 2022-02-14 12:58:57
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\use-optimistic-options.ts
  */
 import { QueryKey, useQueryClient } from 'react-query';
+import { Task } from 'types/task';
+import { reorder } from 'utils/reorder';
 
 export const useConfig = (queryKey: QueryKey, callback: (target: any, old?: any[]) => any[]) => {
   const queryClient = useQueryClient();
@@ -38,3 +40,14 @@ export const useEditConfig = (queryKey: QueryKey) =>
 
 export const useAddConfig = (queryKey: QueryKey) =>
   useConfig(queryKey, (target, old) => (old ? [...old, target] : []));
+
+export const useReorderKanbanConfig = (queryKey: QueryKey) =>
+  useConfig(queryKey, (target, old) => reorder({ list: old, ...target }));
+
+export const useReorderTaskConfig = (queryKey: QueryKey) =>
+  useConfig(queryKey, (target, old) => {
+    const orderedList = reorder({ list: old, ...target }) as Task[];
+    return orderedList.map((item) =>
+      item.id === target.fromId ? { ...item, kanbanId: target.toKanbanId } : item
+    );
+  });

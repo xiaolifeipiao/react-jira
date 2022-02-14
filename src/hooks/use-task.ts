@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-02-12 18:40:21
-@LastEditTime: 2022-02-12 23:38:17
+@LastEditTime: 2022-02-14 12:59:41
 @LastEditors: xiaolifeipiao
 @FilePath: \src\hooks\use-task.ts
  */
@@ -11,7 +11,13 @@ import { useHttp } from 'hooks';
 import { QueryKey, useMutation, useQuery } from 'react-query';
 import { Project } from 'types/project';
 import { Task } from 'types/task';
-import { useAddConfig, useDeleteConfig, useEditConfig } from './use-optimistic-options';
+import { SortProps } from './use-kanban';
+import {
+  useAddConfig,
+  useDeleteConfig,
+  useEditConfig,
+  useReorderTaskConfig,
+} from './use-optimistic-options';
 
 export const useTasks = (param?: Partial<Task>) => {
   const client = useHttp();
@@ -60,4 +66,14 @@ export const useDeleteTask = (queryKey: QueryKey) => {
       }),
     useDeleteConfig(queryKey)
   );
+};
+
+export const useReorderTask = (queryKey: QueryKey) => {
+  const client = useHttp();
+  return useMutation((params: SortProps) => {
+    return client('tasks/reorder', {
+      data: params,
+      method: 'POST',
+    });
+  }, useReorderTaskConfig(queryKey));
 };

@@ -3,7 +3,7 @@
 @Description: 
 @version: 0.0.0
 @Date: 2022-02-12 19:00:27
-@LastEditTime: 2022-02-14 12:17:37
+@LastEditTime: 2022-02-14 13:42:55
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\kanban\kanban-column.tsx
  */
@@ -21,6 +21,7 @@ import { Mark } from 'components/mark';
 import { Task } from 'types/task';
 import { useDeleteKanban } from 'hooks/use-kanban';
 import { Row } from 'components/lib';
+import { Drag, Drop, DropChild } from 'components/drag-and-drop';
 
 const TaskCard = ({ task }: { task: Task }) => {
   const { startEdit } = useTasksModal();
@@ -50,9 +51,17 @@ export const KanbanColumn = React.forwardRef<HTMLDivElement, { kanban: Kanban }>
           <More kanban={kanban} key={kanban.id} />
         </Row>
         <TasksContainer>
-          {tasks?.map((task) => (
-            <TaskCard task={task} key={task.id} />
-          ))}
+          <Drop type="ROW" direction="vertical" droppableId={String(kanban.id)}>
+            <DropChild style={{ minHeight: '1rem' }}>
+              {tasks?.map((task, taskIndex) => (
+                <Drag key={task.id} index={taskIndex} draggableId={'task' + task.id}>
+                  <div>
+                    <TaskCard task={task} key={task.id} />
+                  </div>
+                </Drag>
+              ))}
+            </DropChild>
+          </Drop>
           <CreateTask kanbanId={kanban.id} />
         </TasksContainer>
       </Container>
