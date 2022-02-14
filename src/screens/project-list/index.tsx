@@ -3,7 +3,7 @@
 @Description: 搜索列表查询组件
 @version: 0.0.0
 @Date: 2022-01-03 19:49:06
-@LastEditTime: 2022-02-14 12:40:47
+@LastEditTime: 2022-02-14 14:45:12
 @LastEditors: xiaolifeipiao
 @FilePath: \src\screens\project-list\index.tsx
  */
@@ -16,6 +16,7 @@ import { useProjects } from 'hooks/use-projects';
 import { useUsers } from 'hooks/use-Users';
 import { useProjectModal, useProjectsSearchParams } from './util';
 import { ButtonNoPadding, ErrorBox, Row, ScreenContainer } from 'components/lib';
+import { Profiler } from 'components/profiler';
 
 export const ProjectListScreen = () => {
   // 状态提升可以让组件共享状态，但是容易造成 prop drilling
@@ -30,19 +31,21 @@ export const ProjectListScreen = () => {
   const { open } = useProjectModal();
 
   return (
-    <ScreenContainer>
-      <Row between={true}>
-        <h1>项目列表</h1>
-        <ButtonNoPadding onClick={open} type="link">
-          创建项目
-        </ButtonNoPadding>
-      </Row>
+    <Profiler id={'项目列表'}>
+      <ScreenContainer>
+        <Row between={true}>
+          <h1>项目列表</h1>
+          <ButtonNoPadding onClick={open} type="link">
+            创建项目
+          </ButtonNoPadding>
+        </Row>
 
-      <SearchPanel param={param} setParam={setParam} users={users || []} />
-      {error ? <ErrorBox error={error} /> : null}
+        <SearchPanel param={param} setParam={setParam} users={users || []} />
+        {error ? <ErrorBox error={error} /> : null}
 
-      <List loading={isLoading} dataSource={list || []} users={users || []} />
-    </ScreenContainer>
+        <List loading={isLoading} dataSource={list || []} users={users || []} />
+      </ScreenContainer>
+    </Profiler>
   );
 };
 
